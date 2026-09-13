@@ -1,0 +1,2126 @@
+<meta charset="utf-8">
+<title>Sachetana Dossier</title>
+
+<style>
+  /* ══════════════════════════════════════════════════════
+     Light-only by design. Adapted from The Atlantic's
+     reading system: Garamond at weight 400 for all
+     editorial text, monospace uppercase labels in red,
+     black on white, hierarchy by size rather than weight.
+     Four-page router: home + three parts, hash-addressed.
+     ══════════════════════════════════════════════════════ */
+
+  :root {
+    color-scheme: light;
+
+    --paper:      #FFFFFF;
+    --paper-2:    #F7F6F2;
+    --paper-3:    #EFEDE7;
+    --ink:        #000000;
+    --ink-2:      #46443F;
+    --ink-3:      #78756E;
+    --rule:       #DDDAD3;
+    --rule-2:     #B6B2A9;
+    --red:        #E7131A;
+    --red-deep:   #A80E13;
+    --red-wash:   #FBEDEC;
+
+    --serif: "Adobe Garamond Pro", AGaramondPro, "EB Garamond", "Hoefler Text", "Iowan Old Style", Garamond, Palatino, "Palatino Linotype", Georgia, serif;
+    --sans: Graphik, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    --mono: "Logic Monospace", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+    --frame: 1180px;
+    --measure: 41rem;
+  }
+
+  * { box-sizing: border-box; }
+  .page[hidden] { display: none; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 100px; background: var(--paper); }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+  }
+
+  ::selection { background: #FCE3A8; color: var(--ink); }
+
+  a { color: var(--ink); text-decoration-color: var(--rule-2); text-underline-offset: 3px; }
+  a:hover { color: var(--red-deep); text-decoration-color: var(--red); }
+  a:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+  /* ── Frame ───────────────────────────────────────────── */
+  .wrap { max-width: var(--frame); margin: 0 auto; padding: 0 28px; }
+  .measure { max-width: var(--measure); }
+
+  /* ── Masthead nav ────────────────────────────────────── */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--paper);
+    border-bottom: 1px solid var(--ink);
+  }
+  .nav-in {
+    max-width: var(--frame); margin: 0 auto; padding: 0 28px;
+    display: flex; align-items: center; gap: 24px; height: 54px;
+  }
+  .nav-mark {
+    font-family: var(--serif); font-size: 19px; letter-spacing: .005em;
+    white-space: nowrap; color: var(--ink); text-decoration: none;
+  }
+  .nav-mark i { font-style: normal; color: var(--red); }
+  .nav-links {
+    display: flex; gap: 20px; margin-left: auto;
+    overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 11px; font-weight: 400;
+    letter-spacing: .085em; text-transform: uppercase;
+    color: var(--ink-2); text-decoration: none; white-space: nowrap;
+    padding: 3px 0; border-bottom: 1px solid transparent; flex: none;
+  }
+  .nav-links a:hover { color: var(--red); border-bottom-color: var(--red); }
+  .nav-links a.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+  /* ── Sub-nav (per-page section jumps) ────────────────── */
+  .subnav {
+    position: sticky; top: 54px; z-index: 40;
+    background: var(--paper); border-bottom: 1px solid var(--rule);
+  }
+  .subnav-in {
+    max-width: var(--frame); margin: 0 auto; padding: 0 28px;
+    display: flex; gap: 22px; height: 42px; align-items: center;
+    overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .subnav-in::-webkit-scrollbar { display: none; }
+  .subnav a {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--ink-3); text-decoration: none;
+    white-space: nowrap; padding: 3px 0; border-bottom: 1px solid transparent; flex: none;
+  }
+  .subnav a:hover { color: var(--red); border-bottom-color: var(--red); }
+
+  /* ── Kicker ──────────────────────────────────────────── */
+  .kicker {
+    font-family: var(--mono); font-size: 12px; font-weight: 400;
+    letter-spacing: .095em; text-transform: uppercase;
+    color: var(--red); margin: 0 0 20px;
+  }
+  .kicker-ink { color: var(--ink-3); }
+
+  /* ── Hero ────────────────────────────────────────────── */
+  .hero { padding: 76px 0 0; }
+  h1 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(2.7rem, 6.4vw, 4.35rem);
+    line-height: 1.07; letter-spacing: -.004em;
+    margin: 0 0 24px; text-wrap: balance; max-width: 17ch;
+  }
+  h1 em { font-style: italic; }
+  .dek {
+    font-size: clamp(1.14rem, 2.2vw, 1.42rem); line-height: 1.44;
+    color: var(--ink); max-width: 36rem; margin: 0 0 36px;
+  }
+  .byline {
+    display: flex; flex-wrap: wrap; gap: 0 34px; row-gap: 16px;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em;
+    color: var(--ink-3); padding: 20px 0 0;
+    border-top: 1px solid var(--ink);
+  }
+  .byline b {
+    display: block; color: var(--ink); font-weight: 400;
+    text-transform: uppercase; letter-spacing: .07em; margin-top: 5px;
+  }
+
+  .hero.sub { padding: 52px 0 0; }
+  .hero.sub h1 { font-size: clamp(2.15rem, 4.6vw, 3.15rem); max-width: 21ch; }
+  .hero.sub .dek { max-width: 42rem; }
+
+  /* ── Stat band ───────────────────────────────────────── */
+  .stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(176px, 1fr));
+    border-top: 1px solid var(--rule); margin-top: 46px;
+  }
+  .stat { padding: 24px 24px 26px 0; border-right: 1px solid var(--rule); }
+  .stat:last-child { border-right: 0; padding-right: 0; }
+  .stat-n {
+    font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 2.9rem);
+    line-height: 1; font-variant-numeric: tabular-nums oldstyle-nums;
+    display: block; color: var(--ink);
+  }
+  .stat-n small { font-size: .46em; color: var(--ink-2); }
+  .stat-l { font-size: 15.5px; line-height: 1.38; color: var(--ink-2); margin-top: 12px; max-width: 24ch; }
+  .stat-s {
+    font-family: var(--mono); font-size: 10px; letter-spacing: .085em;
+    text-transform: uppercase; color: var(--ink-3); margin-top: 11px;
+  }
+
+  /* ── Sections ────────────────────────────────────────── */
+  section { padding: 82px 0; border-top: 1px solid var(--rule); }
+  .hero + section { border-top: 0; padding-top: 64px; }
+
+  h2 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(2rem, 4.2vw, 2.95rem); line-height: 1.11;
+    letter-spacing: -.003em; margin: 0 0 26px; text-wrap: balance;
+    max-width: 20ch;
+  }
+  h3 {
+    font-family: var(--serif); font-weight: 400; font-size: 1.42rem;
+    line-height: 1.22; margin: 0 0 10px; text-wrap: balance;
+  }
+  .lbl {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 14px;
+  }
+
+  p { margin: 0 0 22px; }
+  p:last-child { margin-bottom: 0; }
+  .intro { font-size: 1.08rem; line-height: 1.55; }
+  .intro strong, p strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  .note {
+    font-size: 16px; line-height: 1.5; color: var(--ink-3);
+    max-width: 46rem; margin-top: 22px;
+    padding-top: 16px; border-top: 1px solid var(--rule);
+  }
+  .note strong { color: var(--ink-2); font-weight: 600; }
+
+  .pull {
+    font-family: var(--serif); font-size: clamp(1.2rem, 2.3vw, 1.55rem);
+    line-height: 1.38; color: var(--ink); max-width: 40ch;
+    margin: 44px 0; padding: 0;
+  }
+  .pull::before {
+    content: ""; display: block; width: 58px; height: 2px;
+    background: var(--red); margin-bottom: 20px;
+  }
+
+  /* ── Rule-ruled note blocks ──────────────────────────── */
+  .grid { display: grid; gap: 0; }
+  .g3 {
+    grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+    border-top: 1px solid var(--ink);
+  }
+  .g3 > .blk { border-right: 1px solid var(--rule); }
+  .g3 > .blk:last-child { border-right: 0; padding-right: 0; }
+  .blk { padding: 26px 26px 4px 0; }
+  .blk-date {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .095em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 14px;
+  }
+  .blk p { font-size: 17px; line-height: 1.47; color: var(--ink-2); }
+  .blk ul { margin: 0; padding-left: 17px; }
+  .blk li { font-size: 17px; line-height: 1.42; color: var(--ink-2); margin-bottom: 10px; }
+  .blk li::marker { color: var(--rule-2); }
+  .blk li b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* ── Market map ──────────────────────────────────────── */
+  .scroller { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+  .hint {
+    display: none; font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px;
+  }
+  @media (max-width: 780px) { .hint { display: block; } }
+
+  .figure { margin: 38px 0 0; }
+  .fig-cap {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--ink-3);
+    padding-bottom: 12px; margin-bottom: 0; border-bottom: 1px solid var(--ink);
+  }
+
+  .plot {
+    position: relative; min-width: 680px; height: 520px;
+    border-bottom: 1px solid var(--rule); margin-bottom: 14px;
+  }
+  .plot-field { position: absolute; inset: 44px 132px 48px 58px; }
+  .plot-zone {
+    position: absolute; right: 0; top: 0; width: 34%; height: 34%;
+    background: var(--red-wash); outline: 1px dashed var(--red);
+  }
+  .gx, .gy { position: absolute; background: var(--rule); }
+  .gx { left: 0; right: 0; height: 1px; }
+  .gy { top: 0; bottom: 0; width: 1px; }
+  .ax {
+    position: absolute; font-family: var(--mono); font-size: 10px;
+    letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .ax-y { left: 8px; top: 50%; transform: rotate(-90deg) translateX(-50%); transform-origin: left center; white-space: nowrap; }
+  .ax-b { bottom: 16px; left: 58px; right: 132px; display: flex; justify-content: space-between; }
+  .ax-t { top: 14px; left: 58px; right: 132px; display: flex; justify-content: space-between; }
+
+  .dot {
+    position: absolute; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ink); transform: translate(-50%, 50%);
+    box-shadow: 0 0 0 3px var(--paper);
+  }
+  .dot.ring { background: var(--paper); border: 2px solid var(--ink); width: 10px; height: 10px; }
+  .dot.us { background: var(--red); width: 12px; height: 12px; box-shadow: 0 0 0 3px var(--paper), 0 0 0 7px var(--red-wash); }
+  .dot span {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    font-family: var(--sans); font-size: 11.5px; white-space: nowrap; color: var(--ink-2);
+  }
+  .dot.lf span { left: auto; right: 14px; }
+  .dot.us span { color: var(--red-deep); font-weight: 600; }
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 10px 26px; align-items: center;
+    font-family: var(--sans); font-size: 12.5px; color: var(--ink-2);
+  }
+  .lg { display: inline-flex; align-items: center; gap: 9px; }
+  .lg i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); flex: none; }
+  .lg i.ring { background: transparent; border: 2px solid var(--ink); width: 10px; height: 10px; }
+  .lg i.us { background: var(--red); width: 10px; height: 10px; }
+
+  /* ── Dossier / feature entries ───────────────────────── */
+  .seg { margin-top: 62px; }
+  .seg:first-of-type { margin-top: 46px; }
+  .seg-head {
+    display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    padding-bottom: 10px; border-bottom: 2px solid var(--ink);
+  }
+  .seg-head h3 { margin: 0; font-size: 1.62rem; }
+  .seg-tag {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .095em;
+    text-transform: uppercase; color: var(--red); margin-left: auto;
+  }
+  .seg-note { font-size: 17px; line-height: 1.5; color: var(--ink-2); margin: 18px 0 28px; max-width: 44rem; }
+
+  .dcards { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(322px, 1fr)); }
+  .d {
+    padding: 26px 28px 28px 0; border-top: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .d:last-child { border-right: 0; }
+  .d.key .d-name { color: var(--red-deep); }
+  .d-top { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
+  .d-name { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin: 0; line-height: 1.18; }
+  .d-name small { font-size: .72em; color: var(--ink-3); }
+  .d-geo {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-3); white-space: nowrap; text-align: right;
+  }
+  .d dl { margin: 0; display: grid; grid-template-columns: 80px 1fr; gap: 9px 16px; }
+  .d dt {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--ink-3); padding-top: 5px;
+  }
+  .d dd { margin: 0; font-size: 16.5px; line-height: 1.45; color: var(--ink-2); }
+  .d dd b { color: var(--ink); font-weight: 600; }
+  .d-take {
+    margin-top: auto; padding-top: 16px; border-top: 1px solid var(--ink);
+    font-size: 16.5px; line-height: 1.46; color: var(--ink);
+  }
+  .d-take > b:first-child {
+    display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: .105em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 9px; font-weight: 400;
+  }
+  .d-take strong { font-weight: 600; }
+  .d-take a.more { color: var(--red-deep); font-weight: 600; text-decoration: none; }
+  .d-take a.more:hover { color: var(--red); }
+
+  /* ── Matrix ──────────────────────────────────────────── */
+  table { border-collapse: collapse; width: 100%; min-width: 1000px; }
+  caption {
+    text-align: left; font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3);
+    padding-bottom: 14px;
+  }
+  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--rule); }
+  thead th {
+    font-family: var(--mono); font-size: 9px; letter-spacing: .075em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 400; vertical-align: bottom; line-height: 1.35;
+    border-bottom: 1px solid var(--ink); padding-bottom: 11px;
+  }
+  tbody th {
+    font-family: var(--serif); font-weight: 400; font-size: 17px;
+    white-space: nowrap; color: var(--ink); position: sticky; left: 0;
+    background: var(--paper); border-right: 1px solid var(--rule);
+  }
+  td.m { text-align: center; font-size: 14px; color: var(--ink); line-height: 1; }
+  td.m.half { color: var(--ink-2); }
+  td.m.none { color: #9B968C; }
+  tbody tr.us th, tbody tr.us td { background: var(--red-wash); }
+  tbody tr.us th { color: var(--red-deep); }
+  tbody tr.us td.m { color: var(--red-deep); }
+  tbody tr.us td.m.none { color: #E0A9A7; }
+  .mlegend {
+    display: flex; gap: 24px; flex-wrap: wrap; font-family: var(--sans);
+    font-size: 12.5px; color: var(--ink-2); margin-top: 18px;
+  }
+  .mlegend b { font-family: var(--serif); font-size: 15px; font-weight: 400; }
+
+  /* ── Revenue models ──────────────────────────────────── */
+  .models { border-top: 1px solid var(--ink); }
+  .model {
+    display: grid; grid-template-columns: 200px 1fr 1fr; gap: 28px;
+    padding: 26px 0; border-bottom: 1px solid var(--rule); align-items: start;
+  }
+  .model-n h4 {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .095em;
+    text-transform: uppercase; color: var(--ink); font-weight: 400; margin: 0 0 8px;
+    line-height: 1.5;
+  }
+  .model-n p { font-family: var(--sans); font-size: 12px; color: var(--ink-3); margin: 0; line-height: 1.5; }
+  .model-body p { font-size: 17px; line-height: 1.47; color: var(--ink-2); margin: 0; }
+  .model-fit p { font-size: 17px; line-height: 1.47; margin: 0; color: var(--ink); }
+  .fit {
+    display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em;
+    text-transform: uppercase; margin-bottom: 11px; padding-bottom: 3px;
+  }
+  .fit-yes { color: var(--red); border-bottom: 1.5px solid var(--red); }
+  .fit-no { color: var(--ink-3); border-bottom: 1.5px solid var(--rule-2); }
+  .fit-maybe { color: var(--ink); border-bottom: 1.5px dashed var(--rule-2); }
+  @media (max-width: 840px) { .model { grid-template-columns: 1fr; gap: 14px; } }
+
+  /* ── Charts ──────────────────────────────────────────── */
+  .chart { padding: 0; }
+  .chart-t { font-family: var(--serif); font-size: 1.28rem; font-weight: 400; margin: 0 0 5px; }
+  .chart-s { font-family: var(--sans); font-size: 12.5px; color: var(--ink-3); margin: 0 0 26px; }
+
+  .brow { display: grid; gap: 8px; margin-bottom: 22px; }
+  .blabel { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+  .blabel span { font-size: 16.5px; color: var(--ink-2); }
+  .blabel b {
+    font-family: var(--mono); font-size: 12.5px; font-weight: 400;
+    font-variant-numeric: tabular-nums; color: var(--ink);
+  }
+  .btrack { height: 11px; background: var(--paper-3); position: relative; }
+  .bfill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ink); }
+  .bfill.red { background: var(--red); }
+  .bfill.mid { background: var(--rule-2); }
+  .bnote { font-family: var(--sans); font-size: 12.5px; color: var(--ink-3); }
+  .bnote strong { color: var(--ink); font-weight: 600; }
+
+  .ladder { position: relative; padding-top: 24px; min-width: 560px; }
+  .ltick { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--rule); }
+  .ltick b {
+    position: absolute; top: -6px; left: 0; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--ink-3);
+    background: var(--paper); padding: 0 6px; letter-spacing: .04em;
+  }
+  .lrow { position: relative; height: 48px; }
+  .lbar { position: absolute; top: 13px; height: 12px; min-width: 5px; background: var(--ink); }
+  .lbar.red { background: var(--red); }
+  .lbar.mut { background: var(--rule-2); }
+  .lname {
+    position: absolute; top: 31px; font-family: var(--sans); font-size: 12.5px;
+    color: var(--ink-2); white-space: nowrap;
+  }
+  .lval {
+    position: absolute; top: 10px; font-family: var(--mono); font-size: 11.5px;
+    color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+
+  .cols2 { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .col { padding: 26px 30px 6px 0; border-top: 1px solid var(--ink); border-right: 1px solid var(--rule); }
+  .col:last-child { border-right: 0; padding-right: 0; }
+  .col h4 {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    font-weight: 400; margin: 0 0 18px; display: flex; align-items: center; gap: 9px;
+  }
+  .col.good h4 { color: var(--ink); }
+  .col.bad h4 { color: var(--red); }
+  .col h4::before { content: ""; width: 7px; height: 7px; background: currentColor; flex: none; }
+  .col.bad h4::before { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+  .col ul { margin: 0; padding-left: 17px; }
+  .col li { font-size: 16.5px; line-height: 1.45; color: var(--ink-2); margin-bottom: 14px; }
+  .col li::marker { color: var(--rule-2); }
+  .col li b { color: var(--ink); font-weight: 600; }
+
+  /* ── Verdict list ────────────────────────────────────── */
+  .verdict { border-top: 1px solid var(--ink); margin-top: 40px; }
+  .vrow {
+    display: grid; grid-template-columns: 40px 1fr; gap: 20px;
+    padding: 24px 0; border-bottom: 1px solid var(--rule);
+  }
+  .vnum {
+    font-family: var(--mono); font-size: 11px; color: var(--red);
+    padding-top: 7px; letter-spacing: .05em;
+  }
+  .vrow h3 { font-size: 1.32rem; margin-bottom: 8px; }
+  .vrow p { font-size: 17px; line-height: 1.5; color: var(--ink-2); margin: 0; max-width: 50rem; }
+
+  /* ── Prior art ───────────────────────────────────────── */
+  .prior { background: var(--paper-2); padding: 40px 38px; margin-top: 34px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; }
+  .chip {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .045em;
+    padding: 6px 11px; background: var(--paper); border: 1px solid var(--rule-2);
+    color: var(--ink-2);
+  }
+  .chip.miss { border-style: dashed; border-color: var(--red); color: var(--red-deep); background: transparent; }
+
+  /* ── Next / rollout ──────────────────────────────────── */
+  .next { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); border-top: 1px solid var(--ink); }
+  .nx { padding: 26px 28px 8px 0; border-right: 1px solid var(--rule); }
+  .nx:last-child { border-right: 0; padding-right: 0; }
+  .nx-st {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .11em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .nx.done .nx-st { color: var(--red); }
+  .nx-st::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .nx p { font-size: 16.5px; line-height: 1.46; color: var(--ink-2); margin: 0; }
+
+  /* ── Overview dashboard: tier strip ─────────────────────── */
+  .tierstrip {
+    display: flex; flex-wrap: wrap;
+    border-top: 1px solid var(--ink); margin-top: 30px;
+  }
+  .tier-chip { flex: 1 1 170px; padding: 20px 20px 18px 0; border-right: 1px solid var(--rule); }
+  .tier-chip:last-child { border-right: 0; padding-right: 0; }
+  .tier-chip b {
+    display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 9px; font-weight: 400;
+  }
+  .tier-chip span { display: block; font-family: var(--serif); font-size: 17px; color: var(--ink); margin-bottom: 6px; }
+  .tier-chip small { display: block; font-family: var(--sans); font-size: 12px; line-height: 1.4; color: var(--ink-3); }
+  @media (max-width: 620px) { .tier-chip { border-right: 0; padding-right: 0; } }
+
+  /* ── Overview dashboard: mini market map ────────────────── */
+  .plot.mini { min-width: 480px; height: 270px; margin-top: 4px; }
+  .plot.mini .plot-field { inset: 18px 116px 38px 48px; }
+  .plot.mini .ax-b { left: 48px; right: 116px; bottom: 12px; }
+
+  /* ── Footer ──────────────────────────────────────────── */
+  footer { padding: 60px 0 84px; border-top: 2px solid var(--ink); }
+  .srcs { columns: 2; column-gap: 40px; font-family: var(--sans); font-size: 12.5px; line-height: 1.55; padding-left: 18px; }
+  @media (max-width: 700px) { .srcs { columns: 1; } }
+  .srcs li { break-inside: avoid; margin-bottom: 11px; color: var(--ink-3); }
+  .srcs li::marker { color: var(--rule-2); }
+  .srcs a { color: var(--ink-2); }
+  .colophon {
+    font-family: var(--sans); font-size: 12.5px; line-height: 1.55; color: var(--ink-3);
+    margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--rule); max-width: 52rem;
+  }
+
+  @media (max-width: 620px) {
+    body { font-size: 19px; }
+    .stat { padding-right: 18px; }
+    .d dl { grid-template-columns: 1fr; gap: 3px 0; }
+    .d dt { padding-top: 10px; }
+    .d-top { flex-wrap: wrap; }
+    .d-geo { white-space: normal; text-align: left; }
+    .d, .blk, .col, .nx { padding-right: 0; border-right: 0; }
+    .prior { padding: 30px 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-mark" href="#/">Sachetana <i>·</i> Dossier</a>
+    <div class="nav-links">
+      <a href="#/" data-page="home">Overview</a>
+      <a href="#/competitors" data-page="competitors">Competitor analysis</a>
+      <a href="#/features" data-page="features">Feature set</a>
+      <a href="#/business" data-page="business">Business model</a>
+    </div>
+  </div>
+</nav>
+
+<main id="page-home" class="page">
+<header class="hero sub">
+  <div class="wrap">
+    <p class="kicker">MAHE mental health platform &nbsp;·&nbsp; Discovery dossier</p>
+    <h1>Sachetana v2 — the case, on one page.</h1>
+    <p class="dek">What sixteen competitors ship, the position none of them occupy, what MAHE would need to build to occupy it, and what that would cost and return. This page is the whole argument; the three parts below are where it's sourced.</p>
+
+    <div class="byline">
+      <div>Prepared for<b>MAHE — discovery discussion</b></div>
+      <div>Prepared by<b>Sarvagya Singh</b></div>
+      <div>Date<b>13 September 2026</b></div>
+      <div>Scope<b>3 parts · 16 competitors · 15 proposed features</b></div>
+    </div>
+  </div>
+</header>
+
+<section id="l-crisis">
+  <div class="wrap">
+    <p class="kicker">Why this matters</p>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-n">13,892</span>
+        <div class="stat-l">student suicides in India in 2023 — the highest count in a decade</div>
+        <div class="stat-s">NCRB · 8.1% of all suicides</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">13<small>%</small></span>
+        <div class="stat-l">of students use on-campus counselling, though over half report fair or poor mental health</div>
+        <div class="stat-s">College Pulse, 2022</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">2–8<small> wks</small></span>
+        <div class="stat-l">typical wait for a campus counselling appointment once a student does ask</div>
+        <div class="stat-s">US campus benchmark</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">3.3<small>%</small></span>
+        <div class="stat-l">median 30-day retention across 93 mental health apps — the category's central failure</div>
+        <div class="stat-s">Cross-app analysis</div>
+      </div>
+    </div>
+    <p class="note">A court order now turns this from goodwill into a compliance obligation, with named ratios and a named integration — the full mandate is in <a href="#/competitors/context">Part One → The mandate</a>.</p>
+  </div>
+</section>
+
+<section id="l-gap">
+  <div class="wrap">
+    <p class="kicker">The gap in the market</p>
+    <h2>Sixteen platforms, and one empty position</h2>
+    <div class="measure intro">
+      <p>Almost every serious competitor brings its own clinicians to earn — so none of them has any reason to route a student back to a university's own counsellors. MAHE has the opposite incentive, and the opposite asset: Kasturba Hospital, a Department of Psychiatry, and salaried counsellors it already pays for.</p>
+    </div>
+
+    <div class="figure">
+      <p class="fig-cap">Where sixteen platforms sit · full map in Part One</p>
+      <p class="hint">↔ Scroll to see the map</p>
+      <div class="scroller">
+        <div class="plot mini">
+          <div class="ax ax-y">Depth of care</div>
+          <div class="ax ax-b"><span>Student pays</span><span>Who pays</span><span>Institution pays</span></div>
+          <div class="plot-field">
+            <div class="plot-zone"></div>
+            <div class="gx" style="top:50%"></div>
+            <div class="gy" style="left:50%"></div>
+            <div class="gx" style="top:100%; background:var(--ink)"></div>
+            <div class="gy" style="left:0; background:var(--ink)"></div>
+
+            <div class="dot" style="left:7%; bottom:84%"><span>BetterHelp</span></div>
+            <div class="dot" style="left:25%; bottom:73%"><span>Amaha</span></div>
+            <div class="dot" style="left:60%; bottom:39%"><span>Wysa</span></div>
+            <div class="dot lf" style="left:76%; bottom:65%"><span>YourDOST</span></div>
+            <div class="dot lf" style="left:91%; bottom:76%"><span>TimelyCare</span></div>
+            <div class="dot ring lf" style="left:93%; bottom:91%"><span>Mantra Health</span></div>
+            <div class="dot us lf" style="left:99%; bottom:99%"><span>Sachetana</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="lg"><i></i> Brings its own clinicians</span>
+        <span class="lg"><i class="ring"></i> Routes to the customer's own</span>
+        <span class="lg"><i class="us"></i> Where MAHE should sit</span>
+      </div>
+    </div>
+
+    <div class="pull" style="max-width:46ch">A stigma-first front door, funded by the institution, that routes students into clinical resources the institution already owns — and gives that institution's clinicians the tooling to run it.</div>
+
+    <div class="cols2" style="margin-top:8px">
+      <div class="col">
+        <h4>Finding 01</h4>
+        <p style="font-size:16.5px;line-height:1.47;color:var(--ink-2)">TimelyCare, Uwill, YourDOST and Talkspace all monetise the therapy hour — none has any incentive to hand a student back to a university's own psychiatrist.</p>
+      </div>
+      <div class="col">
+        <h4>Finding 02</h4>
+        <p style="font-size:16.5px;line-height:1.47;color:var(--ink-2)">No Indian platform ships the mandated 1:100 peer-supporter layer. At MAHE's scale, that's hundreds of people who need a system, not a spreadsheet.</p>
+      </div>
+    </div>
+    <p class="note">Three more findings, the full sixteen-platform matrix, and the sourcing are in <a href="#/competitors/gap">Part One → The gap</a>.</p>
+  </div>
+</section>
+
+<section id="l-build">
+  <div class="wrap">
+    <p class="kicker">What we'd build</p>
+    <h2>A stepped-care ladder, five tiers deep</h2>
+    <div class="measure intro">
+      <p>Fifteen features, each tied to a specific finding above — from an anonymous first message to a psychiatrist at Kasturba Hospital. Most of the first tier already exists in the v1 prototype; the ladder mainly extends it.</p>
+    </div>
+    <div class="tierstrip">
+      <div class="tier-chip"><b>Tier 0</b><span>Front door</span><small>4 features · anonymous entry, AI triage</small></div>
+      <div class="tier-chip"><b>Tier 1</b><span>Self-directed</span><small>3 features · guides, mood tracking</small></div>
+      <div class="tier-chip"><b>Tier 2</b><span>Community</span><small>2 features · peer support, on- and offline</small></div>
+      <div class="tier-chip"><b>Tier 3</b><span>Clinical</span><small>2 features · real scheduling, psychiatry escalation</small></div>
+      <div class="tier-chip"><b>Tier 4</b><span>Crisis</span><small>1 feature · one-tap SOS, Tele-MANAS</small></div>
+    </div>
+    <p class="note">Every card, its justification, and the phase it ships in are in <a href="#/features/ladder-top">Part Two → The ladder</a>.</p>
+  </div>
+</section>
+
+<section id="l-ask">
+  <div class="wrap">
+    <p class="kicker">What it costs, what it returns</p>
+    <h2>The number this proposal is trying to move</h2>
+    <div class="measure intro">
+      <p>Every additional session MAHE's own counsellors deliver through this platform is value the university already funds, reaching a student it currently isn't reaching.</p>
+    </div>
+
+    <div style="max-width:640px; margin-top:6px">
+      <div class="brow">
+        <div class="blabel"><span>Current utilisation</span><b>13%</b></div>
+        <div class="btrack"><div class="bfill" style="width:13%"></div></div>
+      </div>
+      <div class="brow">
+        <div class="blabel"><span style="color:var(--red-deep)">Achievable utilisation</span><b style="color:var(--red-deep)">25%</b></div>
+        <div class="btrack"><div class="bfill red" style="width:25%"></div></div>
+      </div>
+    </div>
+
+    <div class="stats" style="border-top:1px solid var(--ink); margin-top:36px">
+      <div class="stat">
+        <span class="stat-n">₹75L<small>–1.2Cr</small></span>
+        <div class="stat-l">phased build cost, roughly 19–27 months</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">₹26–44L<small>/yr</small></span>
+        <div class="stat-l">to run it at steady state, once built</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">₹31–94L<small>/yr</small></span>
+        <div class="stat-l">in equivalent value from the utilisation lift alone</div>
+      </div>
+    </div>
+    <p class="note">Phasing, the run-cost breakdown, and the method behind these figures are in <a href="#/business/cost">Part Three → Cost</a>.</p>
+  </div>
+</section>
+
+<section id="l-parts">
+  <div class="wrap">
+    <p class="kicker">Go deeper</p>
+    <h2>Three parts, read in order</h2>
+    <div class="measure intro">
+      <p>Each part is built on the one before it. The competitor survey finds the gap; the feature set is that gap translated into a build; the business model is what it would cost MAHE to fund it.</p>
+    </div>
+
+    <div class="dcards" style="margin-top:32px">
+      <div class="d key">
+        <div class="d-top"><h3 class="d-name">Part One</h3><span class="d-geo">Competitor analysis</span></div>
+        <dl>
+          <dt>Covers</dt><dd>Sixteen platforms across five segments, a ten-capability feature matrix, six revenue models, and price anchors spanning four orders of magnitude.</dd>
+          <dt>Finding</dt><dd>Every commercial player must bring <b>its own</b> clinicians to earn. MAHE's incentive runs the opposite way, and nobody has built for that yet.</dd>
+        </dl>
+        <div class="d-take"><b>Read next</b><a class="more" href="#/competitors">Open Part One →</a></div>
+      </div>
+
+      <div class="d key">
+        <div class="d-top"><h3 class="d-name">Part Two</h3><span class="d-geo">Feature set</span></div>
+        <dl>
+          <dt>Covers</dt><dd>Fifteen features across five tiers of a stepped-care ladder, from an anonymous first message to a psychiatrist at Kasturba Hospital.</dd>
+          <dt>Finding</dt><dd>The 1:100 peer-supporter mandate is a named legal requirement that <b>no Indian platform ships</b> — the largest single gap in the entire market.</dd>
+        </dl>
+        <div class="d-take"><b>Read next</b><a class="more" href="#/features">Open Part Two →</a></div>
+      </div>
+
+      <div class="d key" style="border-right:0">
+        <div class="d-top"><h3 class="d-name">Part Three</h3><span class="d-geo">Business model</span></div>
+        <dl>
+          <dt>Covers</dt><dd>A recommended pricing shape, a phased build cost, a three-year run cost, and the return on a single utilisation number.</dd>
+          <dt>Finding</dt><dd>A phased build ballparked at <b>₹75 lakh–₹1.2 crore</b>, recovered inside its first year or two purely from counselling utilisation MAHE already funds.</dd>
+        </dl>
+        <div class="d-take"><b>Read next</b><a class="more" href="#/business">Open Part Three →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="l-prior">
+  <div class="wrap">
+    <p class="kicker">Prior art</p>
+    <h2>We are not starting from a slide</h2>
+    <div class="measure intro">
+      <p>Sachetana v1 was a working prototype, not a deployed product — built but never released to a live student population. It shipped self-evaluation, journaling, breathing practice, a Safe Space community feed, SOS support, counselling surfaces and a Gemini-based chatbot, on Flutter with Supabase and Firebase behind it, and covers the top of the funnel most competitors get wrong.</p>
+    </div>
+    <div class="chips">
+      <span class="chip">Self-evaluation</span>
+      <span class="chip">Journaling</span>
+      <span class="chip">Breathing practice</span>
+      <span class="chip">Safe Space feed</span>
+      <span class="chip">SOS support</span>
+      <span class="chip">Counselling surfaces</span>
+      <span class="chip">Gemini chatbot</span>
+      <span class="chip">Flutter · Supabase · Firebase</span>
+    </div>
+    <p class="note">Where v1 stops and the proposed feature set begins is mapped tier by tier in <a href="#/features/prior">Part Two → Prior art</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="colophon">Compiled from public sources in September 2026, prepared for MAHE's platform discussion by Sarvagya Singh. Full citations for every figure in this dossier are in <a href="#/competitors">Part One</a>; pricing and cost methodology notes are in <a href="#/business">Part Three</a>.</p>
+  </div>
+</footer>
+</main>
+
+<main id="page-competitors" class="page" hidden>
+<header class="hero sub">
+  <div class="wrap">
+    <p class="kicker">Part one of three &nbsp;·&nbsp; Competitor analysis</p>
+    <h1>Sixteen platforms, five business models, one empty position.</h1>
+    <p class="dek">A survey of who ships what, who pays for it, and where the market's money actually comes from — ending with the one position none of them occupy.</p>
+  </div>
+</header>
+<div class="subnav"><div class="subnav-in">
+  <a href="#/competitors/context">Mandate</a>
+  <a href="#/competitors/map">Market map</a>
+  <a href="#/competitors/players">Players</a>
+  <a href="#/competitors/matrix">Matrix</a>
+  <a href="#/competitors/retention">Retention</a>
+  <a href="#/competitors/gap">The gap</a>
+</div></div>
+<!-- ══════════ MANDATE ══════════ -->
+<section id="context">
+  <div class="wrap">
+    <p class="kicker">The mandate</p>
+    <h2>The window is open, and it was opened by a court</h2>
+    <div class="measure intro">
+      <p>Until last year, a campus mental health platform in India was a nice-to-have that competed with the library renovation for budget. That changed in July 2025. A Supreme Court judgment, followed by UGC action, converted student mental health from institutional goodwill into a compliance obligation with named ratios and named integrations.</p>
+      <p>This matters more than any market-size projection. <strong>MAHE now has to build a specific set of things.</strong> The question in the room is whether it buys them, assembles them from disconnected parts, or commissions them — and the mandate text reads remarkably like a product specification.</p>
+    </div>
+
+    <div class="figure">
+      <div class="grid g3">
+        <div class="blk">
+          <div class="blk-date">25 July 2025</div>
+          <h3>Supreme Court, <em>Sukdeb Saha v. State of Andhra Pradesh</em></h3>
+          <p>Directed the Government of India to frame a uniform mental health policy for Higher Educational Institutions, built on the UMMEED guidelines, the Manodarpan initiative, and the National Suicide Prevention Strategy.</p>
+        </div>
+        <div class="blk">
+          <div class="blk-date">Mandated requirements</div>
+          <h3>What every institution now owes its students</h3>
+          <ul>
+            <li>At least <b>one qualified counsellor</b>, psychologist or social worker at any institution with 100+ students</li>
+            <li>A mental health and wellbeing centre</li>
+            <li>Faculty mentors at <b>1:500</b></li>
+            <li>Peer supporters at <b>1:100</b></li>
+            <li>A <b>24×7 helpline integrated with Tele-MANAS</b></li>
+            <li>Staff training <b>twice a year</b> by certified professionals</li>
+          </ul>
+        </div>
+        <div class="blk">
+          <div class="blk-date">13 November 2025</div>
+          <h3>UGC advisory on Tele-MANAS</h3>
+          <p>Higher Educational Institutions are asked to actively promote Tele-MANAS (14416) across campuses. The national programme has handled <b>29.82 lakh calls</b> since launch, <b>12.33 lakh in 2025 alone</b>, across 53 cells and 20 languages.</p>
+          <p style="color:var(--ink-3);font-size:16px">Read this as an integration requirement, not a competitor.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull">The peer-supporter ratio of 1:100 is, for a university of MAHE's size, a workforce of several hundred students who need recruiting, training, rostering, supervising and escalation paths. No product in the Indian market ships that. It is a software problem wearing a policy costume.</div>
+
+    <p class="note"><strong>Market context, for completeness.</strong> India's mental health app market was valued at roughly $112.75M in 2023 and is projected at $363.46M by 2030 (18.2% CAGR). Global mental health technology: $15.22B in 2024 to a projected $30.98B by 2030. These numbers justify the category. They do not justify this project — the mandate does.</p>
+  </div>
+</section>
+
+<!-- ══════════ MARKET MAP ══════════ -->
+<section id="map">
+  <div class="wrap">
+    <p class="kicker">Market map</p>
+    <h2>Where the money comes from, and how deep the care goes</h2>
+    <div class="measure intro">
+      <p>Two axes explain almost every product decision in this market. <strong>Who pays</strong> determines whether the product must convert a distressed nineteen-year-old into a card-on-file, or simply has to be used. <strong>How deep the care goes</strong> separates a meditation library from a licensed psychiatrist.</p>
+      <p>The third variable is the one that does not fit on an axis, so it is drawn as a shape: whether a platform brings <em>its own</em> clinicians or routes into the customer's existing ones. Almost every player brings their own. That is the whole business.</p>
+    </div>
+
+    <div class="figure">
+      <p class="fig-cap">Figure 1 · Positioning of sixteen platforms</p>
+      <p class="hint" style="margin-top:12px">↔ Scroll to see the full map</p>
+      <div class="scroller">
+        <div class="plot">
+          <div class="ax ax-t"><span>↑ Licensed clinical care</span><span>Institution-funded →</span></div>
+          <div class="ax ax-y">Depth of care</div>
+          <div class="ax ax-b"><span>Student pays out of pocket</span><span>Who pays</span><span>Institution or state pays</span></div>
+          <div class="plot-field">
+            <div class="plot-zone"></div>
+            <div class="gx" style="top:25%"></div>
+            <div class="gx" style="top:50%"></div>
+            <div class="gx" style="top:75%"></div>
+            <div class="gy" style="left:25%"></div>
+            <div class="gy" style="left:50%"></div>
+            <div class="gy" style="left:75%"></div>
+            <div class="gx" style="top:100%; background:var(--ink)"></div>
+            <div class="gy" style="left:0; background:var(--ink)"></div>
+
+            <div class="dot" style="left:6%;  bottom:8%"><span>Calm</span></div>
+            <div class="dot" style="left:20%; bottom:21%"><span>Headspace</span></div>
+            <div class="dot" style="left:12%; bottom:66%"><span>Rocket Health</span></div>
+            <div class="dot" style="left:7%;  bottom:84%"><span>BetterHelp</span></div>
+            <div class="dot" style="left:25%; bottom:73%"><span>Amaha</span></div>
+            <div class="dot lf" style="left:31%; bottom:91%"><span>Talkspace</span></div>
+            <div class="dot" style="left:37%; bottom:79%"><span>Lissun</span></div>
+            <div class="dot" style="left:49%; bottom:89%"><span>Mpower</span></div>
+            <div class="dot lf" style="left:60%; bottom:39%"><span>Wysa</span></div>
+            <div class="dot lf" style="left:74%; bottom:47%"><span>SilverCloud</span></div>
+            <div class="dot" style="left:78%; bottom:57%"><span>1to1help</span></div>
+            <div class="dot lf" style="left:76%; bottom:65%"><span>YourDOST</span></div>
+            <div class="dot lf" style="left:88%; bottom:29%"><span>Togetherall</span></div>
+            <div class="dot lf" style="left:94%; bottom:11%"><span>YOU at College</span></div>
+            <div class="dot lf" style="left:97%; bottom:53%"><span>Tele-MANAS</span></div>
+            <div class="dot lf" style="left:87%; bottom:73%"><span>Uwill</span></div>
+            <div class="dot lf" style="left:91%; bottom:82%"><span>TimelyCare</span></div>
+            <div class="dot ring lf" style="left:93%; bottom:91%"><span>Mantra Health</span></div>
+            <div class="dot us lf" style="left:99%; bottom:98%"><span>Sachetana</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="lg"><i></i> Brings its own clinician network</span>
+        <span class="lg"><i class="ring"></i> Routes into the customer's existing clinicians</span>
+        <span class="lg"><i class="us"></i> Our target position</span>
+      </div>
+    </div>
+
+    <p class="note"><strong>Reading the map.</strong> The tinted region is not crowded because it is easy — it is empty because almost nobody can sell into it. A vendor with its own therapist network has no incentive to route a student to a university's psychiatrist; that is revenue walking out the door. MAHE has the inverse problem and the inverse incentive: Kasturba Hospital, a Department of Psychiatry established in 1974, a Department of Clinical Psychology, and salaried counsellors whose marginal cost per additional student session is already sunk. Positions are directional, compiled from public product pages and pricing, not from vendor disclosure.</p>
+  </div>
+</section>
+
+<!-- ══════════ PLAYERS ══════════ -->
+<section id="players">
+  <div class="wrap">
+    <p class="kicker">The players</p>
+    <h2>Sixteen platforms, five business models</h2>
+    <div class="measure intro">
+      <p>Each entry below carries the same four facts: what they ship, who pays, how they make money, and the one thing we should take from them. Entries whose names are set in red are the ones that matter most to the MAHE conversation.</p>
+    </div>
+
+    <!-- Segment 1 -->
+    <div class="seg">
+      <div class="seg-head">
+        <h3>Global consumer wellness</h3>
+        <span class="seg-tag">D2C subscription · content-led</span>
+      </div>
+      <p class="seg-note">These built the category's habits and its vocabulary. They are not competitors for a university budget, but every student arriving at our app has been trained by them on what a wellness app feels like.</p>
+      <div class="dcards">
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Calm</h3><span class="d-geo">US · Global</span></div>
+          <dl>
+            <dt>Ships</dt><dd>Guided meditation, Sleep Stories, breathwork, Daily Calm, mood check-ins, masterclasses, music, kids content.</dd>
+            <dt>Price</dt><dd>Premium <b>$69.99–79.99/yr</b>; Family $99.99/yr for six seats; lifetime $499.99. Calm Business for employers.</dd>
+            <dt>Model</dt><dd>D2C freemium subscription, with an enterprise arm selling seats to employers and health plans.</dd>
+          </dl>
+          <div class="d-take"><b>Take</b>Content alone sells beautifully and routes nobody to a clinician. Calm has no crisis pathway, no clinical governance, and no idea who its user is.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Headspace</h3><span class="d-geo">US · Global</span></div>
+          <dl>
+            <dt>Ships</dt><dd>Meditation, mindfulness courses, sleepcasts, focus music, movement; coaching and therapy inside enterprise tiers post-Ginger merger.</dd>
+            <dt>Price</dt><dd><b>$12.99/mo · $69.99/yr</b> consumer; enterprise priced per employee per month.</dd>
+            <dt>Model</dt><dd>D2C subscription plus enterprise and health-plan contracts.</dd>
+          </dl>
+          <div class="d-take"><b>Take</b>The stack is converging on content, then coaching, then clinical. That sequencing is correct. Their unit economics assume an employer budget, which a campus does not have at the same per-head level.</div>
+        </div>
+
+        <div class="d key">
+          <div class="d-top"><h3 class="d-name">Wysa</h3><span class="d-geo">India-origin · Global</span></div>
+          <dl>
+            <dt>Ships</dt><dd>AI CBT conversational agent, 150+ self-help tools, DBT and mindfulness exercises, an SOS toolkit with grounding exercises, a personal safety plan and local helplines; human coach add-on; clinician-side Digital Referral Assistant.</dd>
+            <dt>Evidence</dt><dd><b>FDA Breakthrough Device designation</b>, peer-reviewed RCT in JMIR, 6.5M+ users. NHS: 117,000+ patients through the referral assistant since 2022, saving clinicians <b>~21 minutes per assessment</b>.</dd>
+            <dt>Price</dt><dd>Free anonymous tier; Premium <b>~$74.99/yr</b>; coaching from $19.99/session; enterprise custom.</dd>
+            <dt>Model</dt><dd>B2B2C. <b>Over 80% of revenue</b> comes from businesses and health plans; the free tier is the funnel.</dd>
+          </dl>
+          <div class="d-take"><b>Closest analogue in the world</b>Anonymous-first AI front door, escalation to humans, and tooling that saves the clinician time. Built in Bengaluru. Their referral assistant is our thesis, proven, with a regulator's stamp on it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segment 2 -->
+    <div class="seg">
+      <div class="seg-head">
+        <h3>Teletherapy marketplaces</h3>
+        <span class="seg-tag">D2C subscription → payer-funded</span>
+      </div>
+      <p class="seg-note">The cautionary segment. Both built enormous therapist networks on consumer credit cards, and both are now being rescued by institutional payers. Their trajectory is the single strongest argument for our B2B model.</p>
+      <div class="dcards">
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">BetterHelp</h3><span class="d-geo">US · Teladoc</span></div>
+          <dl>
+            <dt>Ships</dt><dd>Matched licensed therapist, unlimited messaging, weekly live video or phone, journaling, group webinars.</dd>
+            <dt>Price</dt><dd><b>$70–100/week</b>, billed four-weekly ($280–400/mo). Financial aid of 10–40% including a student discount.</dd>
+            <dt>Model</dt><dd>D2C subscription marketplace. Revenue fell <b>11% year-on-year in Q1 2025</b>; acquired UpLift to move in-network with insurers.</dd>
+          </dl>
+          <div class="d-take"><b>Take</b>At roughly ₹25,000 a month, this is structurally unavailable to an Indian undergraduate. Pure D2C therapy churns, and is now retreating toward third-party payers.</div>
+        </div>
+
+        <div class="d key">
+          <div class="d-top"><h3 class="d-name">Talkspace</h3><span class="d-geo">US · NASDAQ: TALK</span></div>
+          <dl>
+            <dt>Ships</dt><dd>Messaging therapy, live video sessions, psychiatry, live workshops, teen and couples programmes.</dd>
+            <dt>Price</dt><dd><b>$69/wk</b> messaging · <b>$99/wk</b> video and messaging · <b>$109/wk</b> with workshops. Roughly <b>$10 average copay</b> when insurance covers it.</dd>
+            <dt>Model</dt><dd>Deliberately shifted its core to an insured base. Payer business <b>up 33% in Q1 2025</b>, five consecutive profitable quarters, FY2025 guidance <b>$220–235M</b>.</dd>
+          </dl>
+          <div class="d-take"><b>The whole argument in one number</b>$109 a week out of pocket versus a $10 copay. Demand did not change; the payer did. <strong>In our model, the university is the payer</strong> — which is precisely why the grant makes the product viable where a consumer app would die.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segment 3 -->
+    <div class="seg">
+      <div class="seg-head">
+        <h3>Campus-native platforms</h3>
+        <span class="seg-tag">B2B · per-student licence · our direct set</span>
+      </div>
+      <p class="seg-note">This is the segment MAHE would actually be choosing between. It is a real, funded, fast-growing market in the US — and almost entirely absent in India, which is both the opportunity and the reason no Indian procurement officer has a reference price.</p>
+      <div class="dcards">
+
+        <div class="d key">
+          <div class="d-top"><h3 class="d-name">TimelyCare</h3><span class="d-geo">US · ~500 campuses</span></div>
+          <dl>
+            <dt>Ships</dt><dd>TalkNow 24/7 on-demand emotional support, scheduled counselling, psychiatry, health coaching, basic medical care, peer community, self-guided content, faculty referral tools. Acquired Alongside in May 2026 for clinician-powered AI coaching and risk detection.</dd>
+            <dt>Scale</dt><dd>~500 institutions, <b>3 million students</b>. Inc. 5000 four years running on <b>254% revenue growth</b>. $60M Series C.</dd>
+            <dt>Price</dt><dd>Three contract shapes: a 3% population cap, a 10% cap with unused visits rolling over, or all-students per-student-per-year. Public anchor: <b>James Madison University, $435,600 in year one</b> of a three-year deal.</dd>
+            <dt>Model</dt><dd>Institution pays; TimelyCare supplies the entire clinical network.</dd>
+          </dl>
+          <div class="d-take"><b>Benchmark and warning</b>The reference case for "a university buys a mental health layer." But it <em>replaces</em> the campus clinic rather than feeding it, and the whole apparatus is shaped around US insurance and state-by-state licensure. Neither constraint applies at MAHE — and neither does the price.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Uwill</h3><span class="d-geo">US</span></div>
+          <dl>
+            <dt>Ships</dt><dd>Therapist choice and matching in minutes, video, phone, chat and message, 24/7 crisis line, wellness content.</dd>
+            <dt>Scale</dt><dd><b>$30M Series A</b> from Education Growth Partners, $35.2M total. Inc. 5000 #79 in 2025 and #27 in 2024; fastest-growing company in Massachusetts, 2025.</dd>
+            <dt>Model</dt><dd>Institution-paid licence, typically hours-based or per-student.</dd>
+          </dl>
+          <div class="d-take"><b>Take</b>Their entire pitch is <em>time to first appointment</em>, measured in minutes. Speed is the product. That is a metric we can beat with an in-house clinical team and no licensure friction.</div>
+        </div>
+
+        <div class="d key">
+          <div class="d-top"><h3 class="d-name">Mantra Health</h3><span class="d-geo">US · 52+ campuses</span></div>
+          <dl>
+            <dt>Ships</dt><dd>An explicit <b>stepped-care ladder</b>: self-care tools, a DBT-based life-skills programme, peer support via a Togetherall partnership, wellness coaching, teletherapy, telepsychiatry, and 24/7 crisis. Plus a <b>Collaboration Portal</b> giving campus clinicians visibility into referrals and student care plans.</dd>
+            <dt>Scale</dt><dd>~500,000 students across 52+ campuses including Penn State, MIT and Miami Dade. $22M Series A plus extension.</dd>
+            <dt>Model</dt><dd>Institution-paid, closed-loop referral between the campus counselling centre and Mantra's clinicians.</dd>
+          </dl>
+          <div class="d-take"><b>The structural blueprint</b>The Collaboration Portal is the single piece we must build for MAHE's Department of Psychiatry and its counsellors. Mantra bolts a campus onto its network; we would bolt a network onto the campus. Same architecture, inverted ownership — and ours is the version a university actually wants.</div>
+        </div>
+
+        <div class="d key">
+          <div class="d-top"><h3 class="d-name">Togetherall</h3><span class="d-geo">UK / US</span></div>
+          <dl>
+            <dt>Ships</dt><dd>24/7 <b>anonymous, clinically moderated</b> peer community, self-assessments, wellbeing courses on depression, sleep and anxiety, goal tracking, and signposting into each specific university's own resources.</dd>
+            <dt>Scale</dt><dd>Baylor, Boston University, Buffalo, Iowa, UW-Madison, UT El Paso, Pittsburgh.</dd>
+            <dt>Model</dt><dd>Institution-paid annual licence, sold explicitly as a cheaper tier that absorbs mild-to-moderate need so the counselling centre can concentrate on high-risk cases.</dd>
+          </dl>
+          <div class="d-take"><b>Validates the Safe Space</b>Proof that anonymous peer support is a legitimate, purchasable tier of campus care — and the evidence base for the feed Sachetana already shipped. The non-negotiable detail: <strong>clinically moderated, round the clock</strong>. An unmoderated student mental health forum is a liability, not a feature.</div>
+        </div>
+
+        <div class="d key">
+          <div class="d-top"><h3 class="d-name">YOU at College</h3><span class="d-geo">US · Grit Digital Health</span></div>
+          <dl>
+            <dt>Ships</dt><dd>A personalised wellbeing portal across Succeed, Thrive and Matter domains, self-assessments, and a content engine whose main job is surfacing <em>that campus's own</em> resources.</dd>
+            <dt>Price</dt><dd><b>$0.75–$3.00 per student per year</b>, varying by enrolment and customisation depth. 30+ campuses, 300,000+ students.</dd>
+            <dt>Model</dt><dd>Pure engagement and content SaaS, institution-paid, no clinicians involved.</dd>
+          </dl>
+          <div class="d-take"><b>The floor of the market</b>Our single most useful price anchor. A non-clinical engagement layer costs under $3 per student per year. Everything with clinicians in it costs roughly seven to twenty-five times that. Our proposal has to say clearly which of those two things it is.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">SilverCloud by Amwell</h3><span class="d-geo">Ireland / UK / US</span></div>
+          <dl>
+            <dt>Ships</dt><dd>Guided internet-delivered CBT programmes with a human supporter model and built-in outcome measurement.</dd>
+            <dt>Model</dt><dd>Enterprise licence to health systems, employers and universities. Deployed across the NHS and HSE.</dd>
+          </dl>
+          <div class="d-take"><b>Take</b>Supported self-help — structured programmes with light human check-ins — is the most cost-efficient middle tier in the entire market. It converts one clinician's hour into many students' progress.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segment 4 -->
+    <div class="seg">
+      <div class="seg-head">
+        <h3>Indian clinical platforms</h3>
+        <span class="seg-tag">Freemium D2C + B2B hybrid</span>
+      </div>
+      <p class="seg-note">Where Indian capital and Indian clinical talent actually sit today. One of these is the incumbent MAHE would most plausibly buy instead of commissioning a build — so the comparison has to be made explicitly, not avoided.</p>
+      <div class="dcards">
+
+        <div class="d key">
+          <div class="d-top"><h3 class="d-name">YourDOST</h3><span class="d-geo">India · the incumbent</span></div>
+          <dl>
+            <dt>Ships</dt><dd>24/7 chat, audio and video with counsellors, anonymity-first onboarding, self-help content, wellness assessments, on-campus counsellor visits, workshops and webinars, a telephonic crisis helpline, and admin dashboards for the institution.</dd>
+            <dt>Campuses</dt><dd>IIT Bombay, IIT Kharagpur, IIT (ISM) Dhanbad, IIT Goa, NIT Rourkela, NIT Kurukshetra and others. NIT Kurukshetra's deal is explicitly a <b>subscription</b> giving students round-the-clock support free of charge.</dd>
+            <dt>Financials</dt><dd>FY24 revenue <b>₹19.46 Cr</b>. Total funding $1.71M across three rounds — a capital-light business.</dd>
+            <dt>Model</dt><dd>Subscription B2B to campuses and corporates; free at the point of use for the student.</dd>
+          </dl>
+          <div class="d-take"><b>The question we must answer in the room</b>"Why not just buy YourDOST?" The answer is ownership and marginal cost. YourDOST bills MAHE annually to supply <em>its</em> counsellors. MAHE already employs psychiatrists, clinical psychologists and counsellors, and runs Kasturba Hospital. Buying YourDOST means renting capacity the university already owns — forever, with the clinical relationship and all the data sitting outside the institution.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Amaha <small>(ex-InnerHour)</small></h3><span class="d-geo">India</span></div>
+          <dl>
+            <dt>Ships</dt><dd>500+ self-help tools, six structured courses covering depression, anxiety, sleep, stress, anger and happiness, mood tracking, guided breathwork and visualisation, sleep tools, small-group Mental Health Circles, a 50,000-member community, plus therapy and psychiatry online and at physical centres.</dd>
+            <dt>Scale</dt><dd><b>6M+ app users</b>, 220k+ sessions delivered. FY24 revenue <b>₹22.76 Cr</b>.</dd>
+            <dt>Price</dt><dd>Free self-help; therapy roughly <b>₹1,500–3,000+/session</b>; psychiatry paid separately.</dd>
+            <dt>Model</dt><dd>Freemium D2C funnel converting into paid clinical services, with a B2B arm alongside.</dd>
+          </dl>
+          <div class="d-take"><b>Take</b>Best self-help library in India and the benchmark for content quality. Also the clearest illustration of the funnel problem: six million users, 220,000 sessions. On campus we delete the payment step entirely — which should move that conversion ratio by an order of magnitude.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Lissun</h3><span class="d-geo">India</span></div>
+          <dl>
+            <dt>Ships</dt><dd>App plus physical centres, hospital partnerships, and a corporate arm; strong child and family focus.</dd>
+            <dt>Funding</dt><dd><b>$10.7M across 7 rounds</b> from 87 investors; $2.5M pre-Series A led by RPSG Capital Ventures. Acquired US startup Being Cares Inc. in July 2025.</dd>
+            <dt>Model</dt><dd>Omnichannel — digital front end, physical clinics, institutional contracts.</dd>
+          </dl>
+          <div class="d-take"><b>Take</b>Hybrid online and offline is where Indian capital is flowing, and it is the model MAHE is already structurally set up for: the app is the front door, the counselling centre is the room, Kasturba is the escalation.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Rocket Health</h3><span class="d-geo">India</span></div>
+          <dl>
+            <dt>Ships</dt><dd>Online therapy and psychiatry; after a first consultation the user gets a personalised care roadmap and chooses single sessions or bundles.</dd>
+            <dt>Price</dt><dd>Sessions from <b>₹1,000</b> — effectively the affordable end of private Indian therapy.</dd>
+            <dt>Model</dt><dd>Low-price D2C teletherapy, founded 2021.</dd>
+          </dl>
+          <div class="d-take"><b>Take</b>Useful as the market price of a therapy hour in India. It is the number to multiply against when valuing the sessions MAHE's own staff already deliver at zero marginal cost.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Mpower</h3><span class="d-geo">India · Aditya Birla Education Trust</span></div>
+          <dl>
+            <dt>Ships</dt><dd>Centres of excellence, foundation clinics in Mumbai and Virar, a helpline, and school and college outreach programmes.</dd>
+            <dt>Model</dt><dd>Philanthropically backed clinical services and outreach. Founded 2016 by Neerja Birla; stated goal of impacting 150 million lives by 2030.</dd>
+          </dl>
+          <div class="d-take"><b>Take</b>The trust-and-CSR funding route. Worth naming in the meeting as a plausible second funding source for scale-out beyond the initial university grant.</div>
+        </div>
+
+        <div class="d key">
+          <div class="d-top"><h3 class="d-name">1to1help</h3><span class="d-geo">India · EAP incumbent</span></div>
+          <dl>
+            <dt>Ships</dt><dd>Employee Assistance Programme: counselling, crisis response, wellbeing content, manager training, organisational reporting.</dd>
+            <dt>Scale</dt><dd>Founded 2001. <b>800+ corporates, 65+ cities, 2.7M employees</b> covered.</dd>
+            <dt>Model</dt><dd>Annual contract priced <b>per covered life</b>, varying by organisation size, feature set and service level.</dd>
+          </dl>
+          <div class="d-take"><b>The pricing mechanic to borrow</b>India already has a mature, twenty-four-year-old market for per-covered-life mental health contracts — it just sells to HR departments instead of registrars. Framing our proposal as <em>an EAP for students</em> gives MAHE's finance office a familiar, defensible procurement shape.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segment 5 -->
+    <div class="seg">
+      <div class="seg-head">
+        <h3>Public infrastructure</h3>
+        <span class="seg-tag">State-funded · free · mandated</span>
+      </div>
+      <p class="seg-note">The "why would we pay for this when it's free" objection — and the answer.</p>
+      <div class="dcards">
+        <div class="d key" style="grid-column: 1 / -1; border-right: 0; padding-right: 0">
+          <div class="d-top"><h3 class="d-name">Tele-MANAS · 14416</h3><span class="d-geo">Government of India</span></div>
+          <dl>
+            <dt>Ships</dt><dd>A two-tier service: trained counsellors provide first-level emotional support, psychosocial counselling and referral; psychiatrists and clinical psychologists are reachable at tier two through eSanjeevani. Free, 24×7, in 20 languages.</dd>
+            <dt>Scale</dt><dd>Launched 10 October 2022. <b>29.82 lakh calls handled</b> as of November 2025, <b>12.33 lakh in 2025 alone</b>, across 53 cells.</dd>
+            <dt>Model</dt><dd>Fully state-funded. Not a commercial competitor.</dd>
+          </dl>
+          <div class="d-take"><b>Turn the threat into a compliance feature</b>UGC's November 2025 advisory asks institutions to <em>actively promote</em> Tele-MANAS. A helpline nobody knows the number to is not a service. Our SOS flow should dial 14416 directly, and our institutional reporting should evidence that promotion — which means the app becomes the mechanism by which MAHE demonstrates compliance rather than a duplicate of a free service.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MATRIX ══════════ -->
+<section id="matrix">
+  <div class="wrap">
+    <p class="kicker">Feature matrix</p>
+    <h2>What everybody ships, side by side</h2>
+    <div class="measure intro">
+      <p>Ten capabilities, sixteen platforms. The columns on the right — routing into the institution's own resources, and giving that institution's clinicians a working surface — are where the market thins out dramatically.</p>
+    </div>
+
+    <div class="figure">
+      <p class="fig-cap">Figure 2 · Capability coverage</p>
+      <p class="hint" style="margin-top:12px">↔ Scroll the table sideways</p>
+      <div class="scroller" style="margin-top:20px">
+        <table>
+          <caption>Compiled from public product pages, pricing pages and case studies. Directional, not vendor-verified.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Platform</th>
+              <th scope="col">Anonymous entry</th>
+              <th scope="col">Self-assessment</th>
+              <th scope="col">AI triage / chat</th>
+              <th scope="col">Self-help content</th>
+              <th scope="col">Peer community</th>
+              <th scope="col">Human counselling</th>
+              <th scope="col">Psychiatry</th>
+              <th scope="col">24/7 crisis</th>
+              <th scope="col">Routes to campus resources</th>
+              <th scope="col">Clinician-side tooling</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Calm</th>
+              <td class="m none">○</td><td class="m none">○</td><td class="m none">○</td><td class="m">●</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td></tr>
+            <tr><th scope="row">Headspace</th>
+              <td class="m none">○</td><td class="m half">◐</td><td class="m half">◐</td><td class="m">●</td><td class="m none">○</td><td class="m half">◐</td><td class="m half">◐</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td></tr>
+            <tr><th scope="row">Wysa</th>
+              <td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m none">○</td><td class="m half">◐</td><td class="m none">○</td><td class="m">●</td><td class="m none">○</td><td class="m">●</td></tr>
+            <tr><th scope="row">BetterHelp</th>
+              <td class="m none">○</td><td class="m">●</td><td class="m none">○</td><td class="m half">◐</td><td class="m half">◐</td><td class="m">●</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td></tr>
+            <tr><th scope="row">Talkspace</th>
+              <td class="m none">○</td><td class="m">●</td><td class="m none">○</td><td class="m half">◐</td><td class="m half">◐</td><td class="m">●</td><td class="m">●</td><td class="m none">○</td><td class="m none">○</td><td class="m half">◐</td></tr>
+            <tr><th scope="row">TimelyCare</th>
+              <td class="m none">○</td><td class="m half">◐</td><td class="m half">◐</td><td class="m">●</td><td class="m half">◐</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m half">◐</td><td class="m">●</td></tr>
+            <tr><th scope="row">Uwill</th>
+              <td class="m none">○</td><td class="m half">◐</td><td class="m none">○</td><td class="m">●</td><td class="m none">○</td><td class="m">●</td><td class="m half">◐</td><td class="m">●</td><td class="m half">◐</td><td class="m">●</td></tr>
+            <tr><th scope="row">Mantra Health</th>
+              <td class="m none">○</td><td class="m">●</td><td class="m none">○</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m">●</td></tr>
+            <tr><th scope="row">Togetherall</th>
+              <td class="m">●</td><td class="m">●</td><td class="m none">○</td><td class="m">●</td><td class="m">●</td><td class="m none">○</td><td class="m none">○</td><td class="m half">◐</td><td class="m">●</td><td class="m half">◐</td></tr>
+            <tr><th scope="row">YOU at College</th>
+              <td class="m">●</td><td class="m">●</td><td class="m none">○</td><td class="m">●</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td><td class="m">●</td><td class="m half">◐</td></tr>
+            <tr><th scope="row">SilverCloud</th>
+              <td class="m none">○</td><td class="m">●</td><td class="m none">○</td><td class="m">●</td><td class="m none">○</td><td class="m half">◐</td><td class="m none">○</td><td class="m none">○</td><td class="m half">◐</td><td class="m">●</td></tr>
+            <tr><th scope="row">YourDOST</th>
+              <td class="m">●</td><td class="m">●</td><td class="m none">○</td><td class="m">●</td><td class="m half">◐</td><td class="m">●</td><td class="m half">◐</td><td class="m">●</td><td class="m half">◐</td><td class="m">●</td></tr>
+            <tr><th scope="row">Amaha</th>
+              <td class="m half">◐</td><td class="m">●</td><td class="m half">◐</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td></tr>
+            <tr><th scope="row">Lissun</th>
+              <td class="m none">○</td><td class="m half">◐</td><td class="m none">○</td><td class="m half">◐</td><td class="m none">○</td><td class="m">●</td><td class="m">●</td><td class="m none">○</td><td class="m none">○</td><td class="m half">◐</td></tr>
+            <tr><th scope="row">Rocket Health</th>
+              <td class="m none">○</td><td class="m half">◐</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td><td class="m">●</td><td class="m">●</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td></tr>
+            <tr><th scope="row">Tele-MANAS</th>
+              <td class="m">●</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td><td class="m none">○</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m none">○</td><td class="m none">○</td></tr>
+            <tr class="us"><th scope="row">Sachetana v1 (2023)</th>
+              <td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m">●</td><td class="m half">◐</td><td class="m none">○</td><td class="m half">◐</td><td class="m half">◐</td><td class="m none">○</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mlegend">
+        <span><b>●</b> core, shipped</span>
+        <span><b>◐</b> partial, paid add-on, or via partner</span>
+        <span><b style="color:var(--rule-2)">○</b> not offered</span>
+      </div>
+    </div>
+
+    <p class="note"><strong>What the last row says.</strong> Sachetana v1 already covered the top of the funnel — anonymous entry, self-evaluation, AI triage, content, peer feed — which is the half most products get wrong. What it never built is the bottom: real appointments with real MAHE clinicians, a psychiatry escalation path, and a working surface for the counsellors on the other side. That is the build.</p>
+  </div>
+</section>
+
+<!-- ══════════ RETENTION ══════════ -->
+<section id="retention">
+  <div class="wrap">
+    <p class="kicker">Retention</p>
+    <h2>The category's real failure is not access. It's the second week.</h2>
+    <div class="measure intro">
+      <p>Every platform in this document can get a student to download. Almost none can get them to come back. If the brief is "engaging enough that students keep coming", this is the number that brief is really about — and it is worse than most people assume.</p>
+    </div>
+
+    <div class="figure">
+      <p class="fig-cap">Figure 4 · Two views of the same drop-off</p>
+      <div class="cols2" style="margin-top:30px">
+        <div class="col" style="border-top:0">
+          <h3 class="chart-t">Median retention across 93 mental health apps</h3>
+          <p class="chart-s">Share of installed users still active, by day</p>
+          <div class="brow">
+            <div class="blabel"><span>Day 1</span><b>100%</b></div>
+            <div class="btrack"><div class="bfill" style="width:100%"></div></div>
+          </div>
+          <div class="brow">
+            <div class="blabel"><span>Day 10</span><b>≈ 20%</b></div>
+            <div class="btrack"><div class="bfill" style="width:20%"></div></div>
+            <div class="bnote">Over 80% of users are gone between day 1 and day 10</div>
+          </div>
+          <div class="brow">
+            <div class="blabel"><span>Day 15</span><b>3.9%</b></div>
+            <div class="btrack"><div class="bfill red" style="width:3.9%"></div></div>
+          </div>
+          <div class="brow">
+            <div class="blabel"><span>Day 30</span><b>3.3%</b></div>
+            <div class="btrack"><div class="bfill red" style="width:3.3%"></div></div>
+            <div class="bnote">Best-in-class platforms reach roughly 16%</div>
+          </div>
+        </div>
+
+        <div class="col" style="border-top:0">
+          <h3 class="chart-t">The friction funnel, per 100 students</h3>
+          <p class="chart-s">Where motivated students are lost before they ever reach a counsellor</p>
+          <div class="brow">
+            <div class="blabel"><span>Enrolled students</span><b>100</b></div>
+            <div class="btrack"><div class="bfill" style="width:100%"></div></div>
+          </div>
+          <div class="brow">
+            <div class="blabel"><span>Report fair or poor mental health</span><b>&gt; 50</b></div>
+            <div class="btrack"><div class="bfill" style="width:52%"></div></div>
+          </div>
+          <div class="brow">
+            <div class="blabel"><span>Use on-campus counselling</span><b>13</b></div>
+            <div class="btrack"><div class="bfill" style="width:13%"></div></div>
+            <div class="bnote">Then wait two to eight weeks for the appointment</div>
+          </div>
+          <div class="brow" style="margin-top:28px">
+            <div class="blabel"><span style="color:var(--red-deep)">The addressable loss</span><b style="color:var(--red-deep)">≈ 39 students</b></div>
+            <div class="btrack"><div class="bfill red" style="width:39%; left:13%"></div></div>
+            <div class="bnote">Students who need support and do not reach the resources their university already funds. <strong>This is the product.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cols2" style="margin-top:44px">
+      <div class="col good">
+        <h4>What demonstrably works</h4>
+        <ul>
+          <li><b>Co-design with the actual students.</b> Deep, participatory adaptation — language, cultural resonance, iterative refinement with the target population — is associated with dropout under 11% and adherence above 75%. That is a twentyfold swing against the category median.</li>
+          <li><b>Brevity and non-clinical language.</b> In an Indian university co-design study, short flows and everyday words directly reduced stigma-related barriers to help-seeking.</li>
+          <li><b>A quick-exit button.</b> Student-requested in that same study, and used by <b>90% of participants</b>. A single control that lets someone leave the screen instantly, because being seen using the app is itself a barrier.</li>
+          <li><b>Clinical moderation of peer spaces</b>, around the clock, as Togetherall does. It is what separates a support community from an incident.</li>
+        </ul>
+      </div>
+      <div class="col bad">
+        <h4>What the data says to avoid</h4>
+        <ul>
+          <li><b>Shipping a content library and calling it a platform.</b> Root-cause analysis of retention failure attributes roughly 40% to UX problems and 35% to inadequate content — meaning more content is not the fix.</li>
+          <li><b>Streaks and gamification borrowed from fitness apps.</b> A broken streak is a failure notification delivered to someone already struggling.</li>
+          <li><b>Requiring identity at the front door.</b> Personal stigma is significantly and negatively associated with help-seeking, and more so among male and younger students — precisely the cohort that dies.</li>
+          <li><b>Engagement as the success metric.</b> Daily active users is the wrong goal. A student who opens the app twice and books a real appointment is a total success and a retention statistic.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ GAP ══════════ -->
+<section id="gap">
+  <div class="wrap">
+    <p class="kicker">The gap</p>
+    <h2>The position nobody occupies</h2>
+    <div class="measure intro">
+      <p>After sixteen platforms, the white space is specific and defensible. It is not "an Indian mental health app" — there are a dozen good ones. It is this:</p>
+    </div>
+
+    <div class="pull" style="max-width:44ch">A stigma-first front door, funded by the institution, that routes students into clinical resources the institution already owns — and gives that institution's clinicians the tooling and evidence to run it.</div>
+
+    <div class="verdict">
+      <div class="vrow">
+        <div class="vnum">01</div>
+        <div>
+          <h3>Every commercial player must bring its own clinicians</h3>
+          <p>It is how they earn. TimelyCare, Uwill, YourDOST and Talkspace all monetise the therapy hour, so none of them has any incentive to hand a student back to a university psychiatrist. MAHE's incentive runs the opposite way — and only a partner with no therapist network to protect can build honestly for that.</p>
+        </div>
+      </div>
+      <div class="vrow">
+        <div class="vnum">02</div>
+        <div>
+          <h3>No Indian platform ships the mandated peer-supporter layer</h3>
+          <p>The 1:100 peer supporter and 1:500 faculty mentor ratios require recruitment, training records, rostering, supervision and escalation — software nobody in this market sells. Togetherall proves anonymous peer support works; nobody has built the system that <em>manages the supporters</em>. At MAHE's scale that is hundreds of people needing a tool.</p>
+        </div>
+      </div>
+      <div class="vrow">
+        <div class="vnum">03</div>
+        <div>
+          <h3>The clinician side of the product is almost universally neglected</h3>
+          <p>Wysa's referral assistant saves NHS clinicians twenty-one minutes per assessment. Mantra's Collaboration Portal is its main institutional selling point. In India, the counsellor's experience is an afterthought — yet the counsellor is the scarce resource, and the person who decides whether the platform gets used at all.</p>
+        </div>
+      </div>
+      <div class="vrow">
+        <div class="vnum">04</div>
+        <div>
+          <h3>Compliance evidence is unbuilt and now compulsory</h3>
+          <p>After July 2025, MAHE must be able to demonstrate counsellor provision, Tele-MANAS promotion, peer supporter ratios and biannual staff training. Today that is a spreadsheet someone assembles under duress. A platform that generates it as a byproduct of normal operation is buying the administration something it cannot get anywhere else.</p>
+        </div>
+      </div>
+      <div class="vrow">
+        <div class="vnum">05</div>
+        <div>
+          <h3>Nobody is optimising for the student who has already decided to get help</h3>
+          <p>The category is obsessed with awareness and engagement. The brief here is narrower and more tractable: the student who is already motivated, already hurting, and stops at a form, a queue, a phone number, or the fear of being recognised in a waiting room. Every one of those is a solvable interface problem, and solving them requires no new clinical capacity at all.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ONWARD ══════════ -->
+<section id="onward">
+  <div class="wrap">
+    <p class="kicker">Onward</p>
+    <h2>What this fixes for Parts Two and Three</h2>
+    <div class="measure intro">
+      <p>The feature set in Part Two follows directly from the five findings above — every proposed feature is tied back to one of them. The pricing and cost figures in Part Three are built on the six revenue models and the price anchors this analysis surfaced.</p>
+    </div>
+    <div class="dcards" style="margin-top:8px">
+      <div class="d">
+        <div class="d-top"><h3 class="d-name">Part Two</h3><span class="d-geo">Feature set</span></div>
+        <div class="d-take"><a class="more" href="#/features">Open the stepped-care ladder →</a></div>
+      </div>
+      <div class="d" style="border-right:0">
+        <div class="d-top"><h3 class="d-name">Part Three</h3><span class="d-geo">Business model</span></div>
+        <div class="d-take"><a class="more" href="#/business">Open the pricing and cost case →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="kicker kicker-ink">Sources</p>
+    <ol class="srcs">
+      <li>Supreme Court of India, <em>Sukdeb Saha v. State of Andhra Pradesh</em>, 25 July 2025 — via <a href="https://www.scconline.com/blog/post/2026/01/17/ugc-guidelines-for-mental-health-in-higher-educational-institutions/">SCC Online</a> and <a href="https://www.pacta.in/post/supreme-court-mandates-new-mental-health-policies-for-students">Pacta</a></li>
+      <li><a href="https://www.mhfaindia.com/supreme-court-guidelines-mental-health-education-india">MHFA India — Supreme Court guidelines for mental health in education</a></li>
+      <li><a href="https://www.legalitysimplified.com/ugc-urges-heis-to-promote-tele-manas-across-campuses/">UGC advisory on Tele-MANAS, 13 November 2025</a></li>
+      <li><a href="https://www.manoramayearbook.in/current-affairs/india/2025/04/05/tele-manas-programme-explained.html">Tele-MANAS call volumes</a> · <a href="https://www.impriindia.com/insights/policy-update/tele-manas-indias-national-tele-mental-health-programme/">IMPRI programme overview</a></li>
+      <li><a href="https://news.careers360.com/ncrb-report-2023-over-13800-student-suicide-deaths-highest-in-10-years-national-crime-records-bureau-maharashtra-up-tn">NCRB 2023 — student suicide deaths</a> · <a href="https://www.business-standard.com/india-news/student-suicides-in-india-soar-4-annually-exceeding-national-average-124082900397_1.html">Business Standard on growth rate</a></li>
+      <li><a href="https://www.collegehelpguide.com/blog/college-counseling-wait-times-crisis-2026/">Campus counselling wait times and counsellor ratios</a> · <a href="https://mantrahealth.com/post/how-to-improve-utilization-rates-of-mental-health-services/">Mantra Health on utilisation</a></li>
+      <li><a href="https://bmcdigitalhealth.biomedcentral.com/articles/10.1186/s44247-024-00105-9">BMC Digital Health — engagement and retention in digital mental health interventions</a></li>
+      <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12850045/">Systematic review — dropout and adherence in culturally adapted digital interventions</a></li>
+      <li><a href="https://formative.jmir.org/2026/1/e75616">JMIR Formative Research — co-designed screening app for university students (quick-exit finding)</a></li>
+      <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12574761/">Distress prevention service at an Indian university — user feedback</a></li>
+      <li><a href="https://www.wysa.com/clinical-evidence">Wysa clinical evidence</a> · <a href="https://www.wysa.com/nhs-talking-therapies">NHS Talking Therapies deployment</a> · <a href="https://insights.daffodilsw.com/blog/how-does-wysa-work-business-model-and-revenue-streams">business model breakdown</a></li>
+      <li><a href="https://timelycare.com/">TimelyCare</a> · <a href="https://www.globenewswire.com/news-release/2026/05/04/3286900/0/en/timelycare-acquires-alongside-to-expand-continuous-student-support-with-clinician-powered-ai-coaching.html">Alongside acquisition</a> · <a href="https://purchasing.collegebuys.org/vendor/timelycare/">contract structures</a> · <a href="https://www.breezejmu.org/news/mixed-feelings-reported-by-students-after-timelycares-first-active-year/article_a6145590-ea2b-11ed-8228-fbeb8aed3160.html">JMU contract value</a></li>
+      <li><a href="https://mantrahealth.com/our-solutions/">Mantra Health solutions and Collaboration Portal</a> · <a href="https://www.fiercehealthcare.com/digital-health/mantra-health-22m-raised-insurance-referral-college-mental-health">Series A</a></li>
+      <li><a href="https://uwill.com/uwill-secures-30-million-in-series-a-funding-from-education-growth-partners/">Uwill Series A</a></li>
+      <li><a href="https://togetherall.com/en-us/">Togetherall</a> — campus case studies and moderation model</li>
+      <li><a href="https://www.insidehighered.com/news/2018/10/05/colleges-turn-wellness-app-address-student-mental-health">YOU at College per-student pricing</a> · <a href="https://youatcollege.com/">product</a></li>
+      <li><a href="https://silvercloud.amwell.com/">SilverCloud by Amwell</a></li>
+      <li><a href="https://tracxn.com/d/companies/yourdost/__jHQlYbVxw1Ttg9vd3uHPndB2GvTUvQCAk3UsaTONxYk">YourDOST financials (Tracxn)</a> · <a href="https://www.tribuneindia.com/news/health/nit-kshetra-launches-yourdost-mental-health-support-for-students/">NIT Kurukshetra subscription</a> · <a href="https://insightiitb.org/your-dost/">IIT Bombay</a></li>
+      <li><a href="https://www.amahahealth.com/about/">Amaha</a> · <a href="https://tracxn.com/d/companies/amaha/__Z-L3EcIPbrMkGZuzmSrlJlJseytLzuP2iH9SDQMsfvM">FY24 revenue (Tracxn)</a></li>
+      <li><a href="https://inc42.com/buzz/lissun-nets-2-5-mn-to-fuel-its-mental-health-offerings/">Lissun funding</a> · <a href="https://tracxn.com/d/companies/lissun/__81pUWiiFE4wXvm6Tin3vuZH2refQEw2CXPLYDIJcjVI">company profile</a></li>
+      <li><a href="https://yourstory.com/2025/11/rocket-health-affordable-mental-health-therapy-platform-india">Rocket Health</a> · <a href="https://mpowerminds.com/about">Mpower</a> · <a href="https://www.1to1help.com/">1to1help</a> · <a href="https://www.kahamind.com/">Kaha Mind</a></li>
+      <li><a href="https://www.talkspace.com/pricing">Talkspace pricing</a> · <a href="https://bhbusiness.com/2025/05/06/talkspace-extends-profitability-run-as-payer-strategy-fuels-growth/">payer strategy and Q1 2025 results</a> · <a href="https://www.choosingtherapy.com/how-much-does-betterhelp-cost/">BetterHelp pricing</a></li>
+      <li><a href="https://www.insights10.com/report/india-mental-health-apps-market-analysis/">India mental health apps market sizing</a> · <a href="https://www.businesswire.com/news/home/20250917039230/en/Mental-Health-Technology-Market-Report-2025-2030-with-Key-Vendor-Profiles-for-Amwell-BetterHelp-Calm-Headspace-Lyra-Health-Talkspace-and-More---ResearchAndMarkets.com">global mental health technology market</a></li>
+      <li><a href="https://www.manipal.edu/kmc-manipal/department-faculty/department-list/psychiatry.html">KMC Manipal, Department of Psychiatry</a> · <a href="https://www.manipal.edu/soahs-manipal/department-faculty/department-list/department-of-clinical-psychology.html">MCHP Department of Clinical Psychology</a></li>
+      <li><a href="https://sarvagyasinghs.com/#/projects?project=sachetana">Sachetana v1 project record</a></li>
+    </ol>
+    <p class="colophon">Compiled from public sources in September 2026. Institutional pricing in this category is rarely published; figures marked as derived are inferred from disclosed contract values and approximate enrolment, and should be treated as order-of-magnitude anchors for discussion rather than quoted rates. Feature-matrix marks are compiled from vendor product pages and are directional. Company financials are drawn from third-party databases and press reporting, not from audited filings.</p>
+  </div>
+</footer>
+</main>
+<main id="page-features" class="page" hidden>
+<header class="hero sub">
+  <div class="wrap">
+    <p class="kicker">Part two of three &nbsp;·&nbsp; Proposed feature set</p>
+    <h1>A stepped-care ladder, not a feature list.</h1>
+    <p class="dek">Fifteen features across five tiers, from an anonymous first message to a psychiatrist at Kasturba Hospital — each one justified by a mandate clause, a competitor precedent, or a retention finding from Part One, and each attached to the specific friction it removes.</p>
+  </div>
+</header>
+<div class="subnav"><div class="subnav-in">
+  <a href="#/features/prior">Prior art</a>
+  <a href="#/features/tier-0">Front door</a>
+  <a href="#/features/tier-1">Self-directed</a>
+  <a href="#/features/tier-2">Community</a>
+  <a href="#/features/tier-3">Clinical</a>
+  <a href="#/features/tier-4">Crisis</a>
+  <a href="#/features/backoffice">Back office</a>
+  <a href="#/features/rollout">Rollout</a>
+</div></div>
+
+<section id="prior">
+  <div class="wrap">
+    <p class="kicker">Prior art</p>
+    <h2>Where v1 stops and this ladder begins</h2>
+    <div class="prior">
+      <div class="measure intro">
+        <p>Sachetana v1 was a working prototype, not a deployed product — built but never released to a live student population. It shipped self-evaluation, journaling, breathing practice, a Safe Space community feed, SOS support, counselling surfaces and a Gemini-based chatbot, on Flutter with Supabase and Firebase behind it.</p>
+        <p>Against the sixteen platforms surveyed in Part One, that covers the top of the funnel — the half of the product most competitors get wrong, and the half that costs the most to get right. What follows is everything between that and a full stepped-care ladder: the clinical bottom, the community layer the mandate requires, and the institutional back office.</p>
+      </div>
+      <p class="lbl" style="margin-top:30px">Shipped in v1 — extended below, not rebuilt</p>
+      <div class="chips">
+        <span class="chip">Self-evaluation</span>
+        <span class="chip">Journaling</span>
+        <span class="chip">Breathing practice</span>
+        <span class="chip">Safe Space feed</span>
+        <span class="chip">SOS support</span>
+        <span class="chip">Counselling surfaces</span>
+        <span class="chip">Gemini chatbot</span>
+        <span class="chip">Flutter · Supabase · Firebase</span>
+      </div>
+      <p class="lbl" style="margin-top:28px">The gap Part One identified — closed tier by tier below</p>
+      <div class="chips">
+        <span class="chip miss">Real booking into MAHE clinicians</span>
+        <span class="chip miss">Counsellor-side working surface</span>
+        <span class="chip miss">Psychiatry escalation path</span>
+        <span class="chip miss">Clinically moderated peer layer</span>
+        <span class="chip miss">Peer-supporter management (1:100)</span>
+        <span class="chip miss">Tele-MANAS integration</span>
+        <span class="chip miss">Compliance reporting</span>
+        <span class="chip miss">Quick exit</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="ladder-top">
+  <div class="wrap">
+    <p class="kicker">The ladder</p>
+    <h2>Fifteen features, five tiers, in the order a student climbs them</h2>
+    <div class="measure intro">
+      <p>Nobody starts at the psychiatrist. Every feature below sits at the point on that path where a competitor, a court order, or a piece of retention data says something specific has to happen — and each card names which.</p>
+    </div>
+
+    <!-- Tier 0 -->
+    <div class="seg" id="tier-0">
+      <div class="seg-head">
+        <h3>Tier 0 — The front door</h3>
+        <span class="seg-tag">4 features · Phase 1</span>
+      </div>
+      <p class="seg-note">Everything a student sees before they have decided to trust anyone with their name.</p>
+      <div class="dcards">
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Anonymous-first entry</h3><span class="d-geo">Phase 1</span></div>
+          <dl>
+            <dt>What</dt><dd>No login wall, no name, no student ID required to open the app or start a conversation. Identity is only asked for at the point an appointment must actually be booked.</dd>
+            <dt>Removes</dt><dd>The fear of being on record as someone who needed help, before any help has even been offered.</dd>
+          </dl>
+          <div class="d-take"><b>Retention finding</b>Personal stigma is significantly and negatively associated with help-seeking, and more so among male and younger students — precisely the cohort at highest risk. Togetherall and YourDOST both lead with anonymity for the same reason.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">AI triage chat</h3><span class="d-geo">Phase 1 · extends v1</span></div>
+          <dl>
+            <dt>What</dt><dd>A conversational agent — the Gemini chatbot already in v1, given structured triage logic — that listens, gauges severity, and either resolves the moment or routes to the right human tier.</dd>
+            <dt>Removes</dt><dd>Not knowing whether what you're feeling is "bad enough" to justify asking a real person for help.</dd>
+          </dl>
+          <div class="d-take"><b>Wysa precedent</b>Wysa's clinician-facing referral assistant saves NHS staff roughly 21 minutes per assessment and carries an FDA Breakthrough Device designation. Same idea: let the AI do the sorting so a scarce human only sees what needs a human.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Validated self-assessment</h3><span class="d-geo">Phase 1 · extends v1</span></div>
+          <dl>
+            <dt>What</dt><dd>Short, private screening tools that give the triage layer a structured signal instead of a guess, building on the self-evaluation already in v1.</dd>
+            <dt>Removes</dt><dd>Not having language for what's wrong — the assessment supplies the vocabulary.</dd>
+          </dl>
+          <div class="d-take"><b>Category benchmark</b>Shipped by nearly every serious platform in Part One: Amaha, Togetherall, TimelyCare, YourDOST. Its absence would be conspicuous, and it also makes the AI triage layer more accurate.</div>
+        </div>
+
+        <div class="d" style="border-right:0">
+          <div class="d-top"><h3 class="d-name">Quick-exit control</h3><span class="d-geo">Phase 1 · new, small</span></div>
+          <dl>
+            <dt>What</dt><dd>One control, always visible, that instantly replaces the screen with something innocuous.</dd>
+            <dt>Removes</dt><dd>Being seen using the app — in a hostel room, a library, a lecture hall.</dd>
+          </dl>
+          <div class="d-take"><b>Retention finding</b>Student-requested in an Indian university co-design study, and used by <strong>90% of participants</strong> once it shipped. Small to build, disproportionately used.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier 1 -->
+    <div class="seg" id="tier-1">
+      <div class="seg-head">
+        <h3>Tier 1 — Self-directed care</h3>
+        <span class="seg-tag">3 features · Phase 1</span>
+      </div>
+      <p class="seg-note">Help that doesn't consume a counsellor's time — and is not allowed to pretend it replaces one.</p>
+      <div class="dcards">
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Wellbeing guide library</h3><span class="d-geo">Phase 1 · extends v1</span></div>
+          <dl>
+            <dt>What</dt><dd>Structured, short-form content on sleep, exam stress, anxiety and low mood — organised as guided sequences, not an undifferentiated blog.</dd>
+            <dt>Removes</dt><dd>The step between "I feel bad" and "I know what might help", for the large majority of students whose need is real but not clinical.</dd>
+          </dl>
+          <div class="d-take"><b>Amaha precedent</b>500+ self-help tools is the category's content benchmark. Content is a fixed cost served to everyone; every student it satisfies is a session it did not have to take from a counsellor's calendar.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Mood tracking &amp; journaling</h3><span class="d-geo">Phase 1 · extends v1</span></div>
+          <dl>
+            <dt>What</dt><dd>The lightweight daily check-in and journal already in v1, kept deliberately simple rather than expanded into a wellness-tracking suite.</dd>
+            <dt>Removes</dt><dd>Nothing on its own — it's a habit loop, not a fix. It exists to bring a student back on an ordinary day, before a bad one.</dd>
+          </dl>
+          <div class="d-take"><b>Retention finding</b>Category-wide churn analysis attributes ~35% to inadequate content and ~40% to UX. This only earns its place paired with the design discipline at right; alone, it's exactly the mistake that finding warns against.</div>
+        </div>
+
+        <div class="d" style="border-right:0">
+          <div class="d-top"><h3 class="d-name">Non-gamified engagement</h3><span class="d-geo">Principle, applies everywhere</span></div>
+          <dl>
+            <dt>What</dt><dd>No streaks, no leaderboards, no badge count. Success is measured as task completion — a session booked, a course finished — never as daily-active-use.</dd>
+            <dt>Removes</dt><dd>Guilt, manufactured urgency, and the specific harm of a broken streak.</dd>
+          </dl>
+          <div class="d-take"><b>Retention finding</b>"A broken streak is a failure notification delivered to someone already struggling." Fitness-app mechanics are the most-cited anti-pattern in the category's own retention research.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier 2 -->
+    <div class="seg" id="tier-2">
+      <div class="seg-head">
+        <h3>Tier 2 — Community care</h3>
+        <span class="seg-tag">2 features · Phase 1 → Phase 2</span>
+      </div>
+      <p class="seg-note">Help from other people, before help from a clinician — one layer already exists, one has to be built.</p>
+      <div class="dcards">
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Online peer support <small>— Safe Space v2</small></h3><span class="d-geo">Phase 1 · extends v1</span></div>
+          <dl>
+            <dt>What</dt><dd>An anonymous, clinically moderated community feed, around the clock — extending the partial version already shipped in v1's Safe Space.</dd>
+            <dt>Removes</dt><dd>The isolation of believing no one else on campus is going through the same thing.</dd>
+          </dl>
+          <div class="d-take"><b>Togetherall precedent</b>Togetherall's whole business proves anonymous peer support is a legitimate, purchasable tier of care. The non-negotiable detail borrowed directly from them: moderation must be clinical and continuous, or the feature becomes a liability.</div>
+        </div>
+
+        <div class="d" style="border-right:0">
+          <div class="d-top"><h3 class="d-name">Offline peer-supporter network</h3><span class="d-geo">Phase 2 · new build</span></div>
+          <dl>
+            <dt>What</dt><dd>Recruitment, training records, shift rostering, supervision and escalation tooling for a peer-supporter workforce drawn from MAHE's own students, plus tracking for faculty mentors.</dd>
+            <dt>Removes</dt><dd>For MAHE specifically — converts an unfunded compliance obligation into a managed programme, instead of a spreadsheet nobody owns.</dd>
+          </dl>
+          <div class="d-take"><b>Mandate clause</b>The Supreme Court order names ratios of 1:100 peer supporters and 1:500 faculty mentors. Part One's survey found no Indian platform shipping this — the largest single gap identified in this market.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier 3 -->
+    <div class="seg" id="tier-3">
+      <div class="seg-head">
+        <h3>Tier 3 — Clinical care</h3>
+        <span class="seg-tag">2 features · Phase 2 → Phase 3</span>
+      </div>
+      <p class="seg-note">MAHE's own psychiatrists and counsellors, with the queue and the guesswork removed.</p>
+      <div class="dcards">
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Real session scheduling</h3><span class="d-geo">Phase 2 · new build</span></div>
+          <dl>
+            <dt>What</dt><dd>Live booking into MAHE's actual counsellors — calendar and availability visibility, and a waitlist position instead of silence — replacing the "counselling surface" v1 shipped without real appointments behind it.</dd>
+            <dt>Removes</dt><dd>The two-to-eight-week wait a student hits after finally deciding to ask, and not knowing whether the request even reached anyone.</dd>
+          </dl>
+          <div class="d-take"><b>TimelyCare precedent</b>This is the single largest gap Part One identified. TimelyCare and Mantra Health both treat scheduled counselling as core infrastructure; v1 got everything before this point right and stopped exactly here.</div>
+        </div>
+
+        <div class="d" style="border-right:0">
+          <div class="d-top"><h3 class="d-name">Psychiatry escalation path</h3><span class="d-geo">Phase 3 · new, integration</span></div>
+          <dl>
+            <dt>What</dt><dd>A defined clinical handoff from counselling into MAHE's Department of Psychiatry and Kasturba Hospital for cases beyond a counsellor's scope, carrying context forward instead of restarting the story.</dd>
+            <dt>Removes</dt><dd>Re-explaining everything to a new professional, and the drop-off between "this needs a psychiatrist" and an actual appointment existing.</dd>
+          </dl>
+          <div class="d-take"><b>Mantra Health precedent</b>Mirrors Mantra's explicit stepped-care ladder — the structural blueprint Part One identified — inverted here so MAHE owns every clinician in the chain instead of renting them.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier 4 -->
+    <div class="seg" id="tier-4">
+      <div class="seg-head">
+        <h3>Tier 4 — Crisis</h3>
+        <span class="seg-tag">1 feature · Phase 1</span>
+      </div>
+      <p class="seg-note">When it can't wait for an appointment of any kind.</p>
+      <div class="dcards">
+        <div class="d" style="grid-column:1/-1; border-right:0">
+          <div class="d-top"><h3 class="d-name">One-tap SOS with Tele-MANAS dial-out</h3><span class="d-geo">Phase 1 · extends v1</span></div>
+          <dl>
+            <dt>What</dt><dd>A single always-reachable control that surfaces the nearest emergency resource, a saved personal safety plan, and a direct dial to Tele-MANAS's 14416 — building on the SOS support already in v1.</dd>
+            <dt>Removes</dt><dd>Having to search for a number, or decide which service to call, in the moment it matters least to be searching.</dd>
+          </dl>
+          <div class="d-take"><b>UGC advisory</b>The November 2025 advisory specifically directs institutions to actively promote Tele-MANAS. Wiring the dial-out into the app both delivers on that and gives MAHE evidence that it complied.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Back office -->
+<section id="backoffice">
+  <div class="wrap">
+    <p class="kicker">Back office</p>
+    <h2>Built for MAHE's staff, not just its students</h2>
+    <div class="measure intro">
+      <p>Every feature above only works if the people on the other end of it aren't fighting the product too. This is the half of the market Part One found almost universally neglected.</p>
+    </div>
+    <div class="seg" style="margin-top:8px">
+      <div class="seg-head">
+        <h3>Cross-cutting</h3>
+        <span class="seg-tag">3 features · Phase 2 → Phase 3</span>
+      </div>
+      <div class="dcards">
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Counsellor-side working surface</h3><span class="d-geo">Phase 2 · new build</span></div>
+          <dl>
+            <dt>What</dt><dd>A caseload view for MAHE's counsellors and psychiatrists — session notes, referral flags surfaced by the AI triage layer, and visibility into the peer-supporter roster.</dd>
+            <dt>Removes</dt><dd>The counsellor's side of every piece of friction above. A front door nobody staffs is not a front door.</dd>
+          </dl>
+          <div class="d-take"><b>Mantra Health precedent</b>Wysa's version saves NHS clinicians 21 minutes per assessment; Mantra's Collaboration Portal is its main institutional selling point. In India, this side of the product is close to an afterthought everywhere.</div>
+        </div>
+
+        <div class="d">
+          <div class="d-top"><h3 class="d-name">Compliance &amp; reporting dashboard</h3><span class="d-geo">Phase 3 · new build</span></div>
+          <dl>
+            <dt>What</dt><dd>Auto-generated evidence of counsellor-to-student ratio, peer-supporter ratio, Tele-MANAS promotion activity, and biannual staff training — assembled as a byproduct of normal use.</dd>
+            <dt>Removes</dt><dd>The spreadsheet someone at MAHE currently has to build under duress whenever this compliance is questioned.</dd>
+          </dl>
+          <div class="d-take"><b>Mandate clause</b>After July 2025 this evidence is compulsory, not optional. A platform that produces it automatically is selling the administration something no competitor in Part One offers at all.</div>
+        </div>
+
+        <div class="d" style="border-right:0">
+          <div class="d-top"><h3 class="d-name">Multilingual interface</h3><span class="d-geo">Phase 3 · new, localisation</span></div>
+          <dl>
+            <dt>What</dt><dd>Hindi and regional-language interfaces alongside English, matching the twenty languages Tele-MANAS itself already operates in.</dd>
+            <dt>Removes</dt><dd>Excludes exactly the students least likely to already know how to ask for help in a second language, from a product whose entire purpose is reducing that barrier.</dd>
+          </dl>
+          <div class="d-take"><b>Category benchmark</b>Tele-MANAS ships this at national scale; MAHE draws students from across India and abroad. A stigma-reduction product that only speaks English is a contradiction of its own premise.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Rollout -->
+<section id="rollout">
+  <div class="wrap">
+    <p class="kicker">Rollout</p>
+    <h2>What ships when</h2>
+    <div class="measure intro">
+      <p>Sequenced so MAHE commits to each stage against demonstrated use of the one before it, not all fifteen features in a single sitting.</p>
+    </div>
+    <div class="next" style="margin-top:36px">
+      <div class="nx done">
+        <div class="nx-st">Phase 1 · 9–12 months</div>
+        <h3>The front door</h3>
+        <p>Extends the existing v1 codebase: anonymous entry, AI triage, self-assessment, quick exit, the wellbeing library, journaling, online peer support, and SOS. Nine of the fifteen features, built on what already exists.</p>
+      </div>
+      <div class="nx">
+        <div class="nx-st">Phase 2 · 6–9 months</div>
+        <h3>The clinical bottom</h3>
+        <p>The offline peer-supporter network, real session scheduling into MAHE's counsellors, and the counsellor-side working surface. Fewer features, by far the hardest engineering.</p>
+      </div>
+      <div class="nx">
+        <div class="nx-st">Phase 3 · 4–6 months</div>
+        <h3>Closing the loop</h3>
+        <p>Psychiatry escalation, the compliance dashboard, and multilingual support — the pieces that close the loop with MAHE's clinical and administrative systems.</p>
+      </div>
+    </div>
+    <p class="note">What each phase costs to build, and what it costs to run afterward, is in <a href="#/business/cost">Part Three → Build and run cost</a>.</p>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <p class="kicker kicker-ink">Sources for this part</p>
+    <ol class="srcs">
+      <li>Supreme Court of India, <em>Sukdeb Saha v. State of Andhra Pradesh</em>, 25 July 2025 — peer-supporter and faculty-mentor ratios</li>
+      <li><a href="https://www.legalitysimplified.com/ugc-urges-heis-to-promote-tele-manas-across-campuses/">UGC advisory on Tele-MANAS, 13 November 2025</a></li>
+      <li><a href="https://formative.jmir.org/2026/1/e75616">JMIR Formative Research — co-designed screening app for university students (quick-exit finding)</a></li>
+      <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12850045/">Systematic review — dropout and adherence in culturally adapted digital interventions</a></li>
+      <li><a href="https://www.wysa.com/clinical-evidence">Wysa clinical evidence</a> · <a href="https://www.wysa.com/nhs-talking-therapies">NHS Talking Therapies deployment</a></li>
+      <li><a href="https://mantrahealth.com/our-solutions/">Mantra Health solutions and Collaboration Portal</a></li>
+      <li><a href="https://togetherall.com/en-us/">Togetherall</a> — campus case studies and moderation model</li>
+      <li><a href="https://www.amahahealth.com/about/">Amaha</a> — self-help content benchmark</li>
+      <li><a href="https://sarvagyasinghs.com/#/projects?project=sachetana">Sachetana v1 project record</a></li>
+    </ol>
+    <p class="colophon">The complete bibliography for every figure cited across this dossier is in <a href="#/competitors">Part One</a>. This page lists only the sources specific to the rationale argued here.</p>
+  </div>
+</footer>
+</main>
+
+<main id="page-business" class="page" hidden>
+<header class="hero sub">
+  <div class="wrap">
+    <p class="kicker">Part three of three &nbsp;·&nbsp; Business and revenue model</p>
+    <h1>What MAHE would actually be signing up to pay.</h1>
+    <p class="dek">A recommended contract shape, a ballpark build cost, and the return on a single number: how many more students the university's own counsellors could see.</p>
+  </div>
+</header>
+<div class="subnav"><div class="subnav-in">
+  <a href="#/business/models">Revenue models</a>
+  <a href="#/business/pricing">Price anchors</a>
+  <a href="#/business/our-pricing">Our pricing</a>
+  <a href="#/business/cost">Build &amp; run cost</a>
+  <a href="#/business/roi">ROI case</a>
+  <a href="#/business/ask">The ask</a>
+</div></div>
+<!-- ══════════ REVENUE MODELS ══════════ -->
+<section id="models">
+  <div class="wrap">
+    <p class="kicker">Revenue models</p>
+    <h2>Six ways this market makes money</h2>
+    <div class="measure intro">
+      <p>Every platform above runs one of these six, or a blend of two. Only three survive contact with an Indian university campus — and the reasons the other three fail are worth stating out loud before anyone in the meeting proposes them.</p>
+    </div>
+
+    <div class="figure">
+      <div class="models">
+        <div class="model">
+          <div class="model-n">
+            <h4>Consumer subscription</h4>
+            <p>Calm · Headspace · Wysa Premium</p>
+          </div>
+          <div class="model-body">
+            <p>A free tier builds the habit; $70–80 a year unlocks the library. Margins are excellent because content is a fixed cost served infinitely.</p>
+          </div>
+          <div class="model-fit">
+            <span class="fit fit-no">Wrong for us</span>
+            <p>Asking a student in distress for a card is the exact friction we exist to remove. It also re-imports stigma: paying marks you as someone with a problem.</p>
+          </div>
+        </div>
+
+        <div class="model">
+          <div class="model-n">
+            <h4>Pay-per-session marketplace</h4>
+            <p>BetterHelp · Talkspace · Amaha · Rocket Health</p>
+          </div>
+          <div class="model-body">
+            <p>Take a margin on each therapy hour. Scales with supply of clinicians, and customer acquisition cost is brutal because every user churns after recovery.</p>
+          </div>
+          <div class="model-fit">
+            <span class="fit fit-no">Wrong for us</span>
+            <p>MAHE's clinicians are salaried. There is no margin to take on a session the university already paid for, and charging students for access to their own faculty would be indefensible.</p>
+          </div>
+        </div>
+
+        <div class="model">
+          <div class="model-n">
+            <h4>Per-student annual licence</h4>
+            <p>YOU at College · TimelyCare · Togetherall</p>
+          </div>
+          <div class="model-body">
+            <p>The institution pays an annual fee multiplied by enrolment. Revenue is predictable, procurement understands it, and the student never sees a price.</p>
+          </div>
+          <div class="model-fit">
+            <span class="fit fit-yes">Primary model</span>
+            <p>This is the shape the finance office already knows how to approve. It maps cleanly onto MAHE's existing per-student fee structure and renews annually with the academic year.</p>
+          </div>
+        </div>
+
+        <div class="model">
+          <div class="model-n">
+            <h4>Capped-utilisation contract</h4>
+            <p>TimelyCare's 3% and 10% population caps</p>
+          </div>
+          <div class="model-body">
+            <p>The institution buys a pool of sessions sized to a percentage of enrolment rather than the whole population. Unused visits may roll over.</p>
+          </div>
+          <div class="model-fit">
+            <span class="fit fit-maybe">Useful hedge</span>
+            <p>Worth proposing as a second-year option if MAHE balks at an all-students figure. It also gives us a defensible way to price surge capacity during exams without owning idle clinician time.</p>
+          </div>
+        </div>
+
+        <div class="model">
+          <div class="model-n">
+            <h4>Per-covered-life EAP</h4>
+            <p>1to1help · corporate wellbeing contracts</p>
+          </div>
+          <div class="model-body">
+            <p>An annual contract per covered person, tiered by feature set and service level, with organisational reporting as a core deliverable rather than an extra.</p>
+          </div>
+          <div class="model-fit">
+            <span class="fit fit-yes">Framing to borrow</span>
+            <p>Twenty-four years of Indian precedent for exactly this contract shape. Presenting Sachetana as <em>a student assistance programme</em> rather than "an app" changes which budget line it competes for.</p>
+          </div>
+        </div>
+
+        <div class="model">
+          <div class="model-n">
+            <h4>Grant, CSR and philanthropy</h4>
+            <p>Mpower · Tele-MANAS · university innovation grants</p>
+          </div>
+          <div class="model-body">
+            <p>Capital comes from a trust, a CSR budget or the state. No revenue requirement, but also no automatic renewal — funding must be re-justified with outcomes.</p>
+          </div>
+          <div class="model-fit">
+            <span class="fit fit-yes">How we start</span>
+            <p>The university grant funds the build. But grants fund <em>projects</em>, not <em>products</em> — so the proposal must name the recurring model that takes over at the end of it, or the platform quietly dies in year two.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PRICING ══════════ -->
+<section id="pricing">
+  <div class="wrap">
+    <p class="kicker">Price anchors</p>
+    <h2>What this actually costs, per student, per year</h2>
+    <div class="measure intro">
+      <p>Nobody in the meeting will have a reference price, because the campus mental health category barely exists in India. These are the anchors worth putting on the table — on a logarithmic scale, because the range spans four orders of magnitude.</p>
+    </div>
+
+    <div class="figure">
+      <p class="fig-cap">Figure 3 · Annual cost per person, USD, log scale</p>
+      <div style="padding-top:26px">
+        <p class="chart-s">Institutional licences in black · our reference band in red · individual retail in grey</p>
+        <p class="hint">↔ Scroll the scale sideways</p>
+        <div class="scroller">
+          <div class="ladder">
+            <div class="ltick" style="left:7.4%"><b>$1</b></div>
+            <div class="ltick" style="left:31.9%"><b>$10</b></div>
+            <div class="ltick" style="left:56.4%"><b>$100</b></div>
+            <div class="ltick" style="left:80.9%"><b>$1,000</b></div>
+
+            <div class="lrow">
+              <div class="lbar" style="left:4.3%; width:14.8%"></div>
+              <div class="lval" style="left:21%">$0.75 – $3.00</div>
+              <div class="lname" style="left:4.3%">YOU at College — engagement layer, no clinicians</div>
+            </div>
+            <div class="lrow">
+              <div class="lbar red" style="left:20.7%; width:14.8%"></div>
+              <div class="lval" style="left:37.5%">₹300 – ₹1,200</div>
+              <div class="lname" style="left:20.7%">Indian campus SaaS norm, per student per year</div>
+            </div>
+            <div class="lrow">
+              <div class="lbar" style="left:39.8%; width:3%"></div>
+              <div class="lval" style="left:45%">≈ $21</div>
+              <div class="lname" style="left:39.8%">TimelyCare — derived from JMU's $435,600 year one</div>
+            </div>
+            <div class="lrow">
+              <div class="lbar mut" style="left:52.6%; width:2.6%"></div>
+              <div class="lval" style="left:57.5%">$70 – $80</div>
+              <div class="lname" style="left:52.6%">Calm / Headspace / Wysa Premium — individual</div>
+            </div>
+            <div class="lrow">
+              <div class="lbar mut" style="left:64.6%; width:7.3%"></div>
+              <div class="lval" style="left:74%">$215 – $430</div>
+              <div class="lname" style="left:64.6%">Amaha — 12 therapy sessions at Indian retail</div>
+            </div>
+            <div class="lrow">
+              <div class="lbar mut" style="left:94.5%; width:4.9%"></div>
+              <div class="lval" style="right:6.5%">$3,588 – $5,668</div>
+              <div class="lname" style="left:58%">Talkspace / BetterHelp — US retail teletherapy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cols2" style="margin-top:40px">
+      <div class="col">
+        <h4>The gap we have to price into</h4>
+        <p style="font-size:17px;line-height:1.5;color:var(--ink-2)">Between $3 and $21 per student per year sits the entire difference between a content portal and a clinical service. TimelyCare charges roughly seven to twenty-five times what YOU at College does, because TimelyCare employs the therapists.</p>
+        <p style="font-size:17px;line-height:1.5;color:var(--ink)"><strong>We employ none.</strong> MAHE does. That is what lets a proposal land credibly below the clinical band while delivering clinical outcomes — the expensive input is already on the university's payroll.</p>
+      </div>
+      <div class="col">
+        <h4>Two numbers for the grant conversation</h4>
+        <p style="font-size:17px;line-height:1.5;color:var(--ink-2)">A therapy hour in the Indian private market costs a student <strong>₹1,000–₹3,000</strong>. Every session MAHE's own counsellors deliver through the platform is that value returned to a student at zero marginal cost.</p>
+        <p style="font-size:17px;line-height:1.5;color:var(--ink-2)">If the platform moves campus counselling utilisation from the benchmark 13% toward even 25% at a university of MAHE's scale, the delivered value is calculable in crores — and it is the cleanest ROI argument available for Part Two.</p>
+      </div>
+    </div>
+
+    <p class="note"><strong>Method note.</strong> The TimelyCare figure is inferred by dividing a publicly reported contract value by approximate enrolment; treat it as an order-of-magnitude anchor, not a quoted rate. Rupee conversions use approximately ₹83 to the dollar. Vendors in this category do not publish institutional pricing, so every institutional figure here is either publicly disclosed by a customer or derived.</p>
+  </div>
+</section>
+
+<!-- ══════════ OUR PRICING ══════════ -->
+<section id="our-pricing">
+  <div class="wrap">
+    <p class="kicker">Our pricing</p>
+    <h2>What we would actually ask MAHE to pay, per student, per year</h2>
+    <div class="measure intro">
+      <p>The floor is YOU at College's $3 content-only price. The ceiling is TimelyCare's $21 — and that number belongs to a vendor supplying its own therapists. We supply none: MAHE's psychiatrists and counsellors are already on payroll. Our price is for the software and workforce-orchestration layer sitting on top of clinicians MAHE already owns, so it should read as a fraction of the clinical band, because it is doing a fraction of the clinical work.</p>
+    </div>
+
+    <div class="figure">
+      <p class="fig-cap">Figure 5 · Proposed price by phase, illustrative</p>
+      <div class="scroller" style="margin-top:20px">
+        <table style="min-width:0; width:100%">
+          <caption>Enrolment figures are illustrative — MAHE's own headcount by campus should replace them before any figure reaches finance.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Phase</th>
+              <th scope="col">What's live</th>
+              <th scope="col">Per student / year</th>
+              <th scope="col">Manipal campus <small>(~26,000)</small></th>
+              <th scope="col">All MAHE campuses <small>(~40,000+)</small></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Phase 1</th>
+              <td>Front door, self-directed care, online peer support</td>
+              <td>₹165–330 <small style="color:var(--ink-3)">($2–4)</small></td>
+              <td>₹43L–86L</td>
+              <td>₹66L–1.3Cr</td>
+            </tr>
+            <tr>
+              <th scope="row">Phase 2</th>
+              <td>+ offline peer network, real scheduling, counsellor dashboard</td>
+              <td>₹415–750 <small style="color:var(--ink-3)">($5–9)</small></td>
+              <td>₹1.08–1.95Cr</td>
+              <td>₹1.66–3.0Cr</td>
+            </tr>
+            <tr class="us">
+              <th scope="row">Phase 3</th>
+              <td>+ psychiatry escalation, compliance reporting, multilingual — steady state</td>
+              <td>₹665–1,000 <small style="color:var(--red-deep)">($8–12)</small></td>
+              <td>₹1.73–2.6Cr</td>
+              <td>₹2.66–4.0Cr</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="note"><strong>Method note.</strong> MAHE's own admissions materials state 40,000+ students across all campuses; the Manipal campus, where Kasturba Hospital and the Department of Psychiatry sit, is the more relevant base case for phases that route into a specific clinical workforce. Rupee figures use ≈₹83 to the dollar, consistent with Part One.</p>
+
+    <div class="cols2" style="margin-top:44px">
+      <div class="col">
+        <h4>Why this isn't a subscription number</h4>
+        <p style="font-size:17px;line-height:1.5;color:var(--ink-2)">This is proposed as an institutional line item — an annual contract sized to enrolment, in the shape 1to1help already sells to Indian corporates as an Employee Assistance Programme. The student never sees a price, exactly as in the "per-student annual licence" model Part One identified as the primary fit.</p>
+      </div>
+      <div class="col">
+        <h4>The capped-utilisation fallback</h4>
+        <p style="font-size:17px;line-height:1.5;color:var(--ink-2)">If MAHE prefers not to commit to an all-students figure in year one, borrow TimelyCare's cap structure: price a pool sized to 15–20% of enrolment, with unused capacity rolling over. A lower initial ask, with a defined trigger to expand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ COST ══════════ -->
+<section id="cost">
+  <div class="wrap">
+    <p class="kicker">What the grant needs to fund</p>
+    <h2>A ballpark build cost, phased so MAHE isn't asked to commit to all of it at once</h2>
+    <div class="measure intro">
+      <p>Three phases, matching the rollout in Part Two. Costs are fully-loaded Indian team estimates, not quotes, and should be treated the same way as every other order-of-magnitude figure in this dossier.</p>
+    </div>
+
+    <div class="figure">
+      <div class="grid g3">
+        <div class="blk">
+          <div class="blk-date">Phase 1 · 9–12 months</div>
+          <h3>₹35–55 lakh</h3>
+          <p>Two full-stack engineers, one product/UX designer, a part-time clinical content lead, and founder/PM time. The bulk of this phase extends an existing codebase rather than starting one.</p>
+        </div>
+        <div class="blk">
+          <div class="blk-date">Phase 2 · 6–9 months</div>
+          <h3>₹25–40 lakh</h3>
+          <p>Fewer people, harder problems: the scheduling system, MAHE calendar and systems integration, and the counsellor-side dashboard. This is where most of the engineering risk actually sits.</p>
+        </div>
+        <div class="blk">
+          <div class="blk-date">Phase 3 · 4–6 months</div>
+          <h3>₹15–25 lakh</h3>
+          <p>Psychiatry-workflow integration, the compliance dashboard, and localisation into Hindi and regional languages.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull" style="max-width:46ch">Total: roughly ₹75 lakh to ₹1.2 crore across nineteen to twenty-seven months — phased so each stage is committed against demonstrated use of the one before it, not promised in a single sitting.</div>
+
+    <div class="cols2" style="margin-top:20px">
+      <div class="col">
+        <h4>What it costs to keep running</h4>
+        <ul>
+          <li>Hosting and infrastructure at 26,000–40,000-user scale: <b>₹4–8 lakh/yr</b></li>
+          <li>A lean maintenance team, one to two engineers: <b>₹15–25 lakh/yr</b></li>
+          <li>Clinical content review and updates: <b>₹4–6 lakh/yr</b></li>
+          <li>Peer-supporter programme coordination, a role that can sit inside student affairs: <b>₹3–5 lakh/yr</b></li>
+        </ul>
+        <p style="font-size:16.5px;color:var(--ink-2);margin-top:14px">Total: roughly <strong style="color:var(--ink)">₹26–44 lakh a year</strong> at steady state.</p>
+      </div>
+      <div class="col">
+        <h4>Why that number is comfortable</h4>
+        <p style="font-size:17px;line-height:1.5;color:var(--ink-2)">Even the lowest Phase 3 licence estimate for the Manipal campus alone — <strong style="color:var(--ink)">₹1.73 crore a year</strong> — is roughly four to six times this run cost. The platform does not need to break even against a subscription; it needs to beat its own maintenance bill, and at these figures it does so with wide margin, whether that headroom is booked as an internal budget line or eventually offered to sister institutions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ROI ══════════ -->
+<section id="roi">
+  <div class="wrap">
+    <p class="kicker">The return, in one number</p>
+    <h2>The argument is a utilisation curve, not a revenue projection</h2>
+    <div class="measure intro">
+      <p>Every session MAHE's own counsellors deliver through this platform is value the university already funds, reaching a student who currently isn't reached. That is a cleaner case for a grant committee than any subscription math.</p>
+    </div>
+
+    <div class="figure">
+      <p class="fig-cap">Figure 6 · Campus counselling utilisation, current vs. achievable</p>
+      <div style="padding-top:26px; max-width:640px">
+        <div class="brow">
+          <div class="blabel"><span>Current utilisation</span><b>13%</b></div>
+          <div class="btrack"><div class="bfill" style="width:13%"></div></div>
+          <div class="bnote">≈ 3,380 of Manipal's ~26,000 students, at the College Pulse benchmark</div>
+        </div>
+        <div class="brow">
+          <div class="blabel"><span style="color:var(--red-deep)">Achievable utilisation</span><b style="color:var(--red-deep)">25%</b></div>
+          <div class="btrack"><div class="bfill red" style="width:25%"></div></div>
+          <div class="bnote">≈ 6,500 students — the ceiling reached in culturally co-designed programmes, per Part One's retention findings</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull" style="max-width:46ch">≈3,120 additional students seen a year, at a private-market value of ₹1,000–3,000 a session, is ₹31 lakh to ₹94 lakh in equivalent value delivered annually — from a utilisation increase alone, without MAHE hiring a single additional clinician.</div>
+
+    <p class="note"><strong>Method note.</strong> Session value is anchored to Rocket Health and Amaha's Indian retail rates, cited in Part One. The delta is 25% minus 13% of ~26,000 Manipal students; this is illustrative order-of-magnitude reasoning, not a forecast, and should be rebuilt on MAHE's actual current utilisation once that figure is available internally.</p>
+  </div>
+</section>
+
+<!-- ══════════ ASK ══════════ -->
+<section id="ask">
+  <div class="wrap">
+    <p class="kicker">The ask</p>
+    <h2>What to put on the table</h2>
+    <div class="stats" style="border-top:1px solid var(--ink); margin-top:8px">
+      <div class="stat">
+        <span class="stat-n">₹75L<small>–1.2Cr</small></span>
+        <div class="stat-l">phased build cost across three stages, roughly 19–27 months</div>
+        <div class="stat-s">Part Three · build cost</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">₹26–44L<small>/yr</small></span>
+        <div class="stat-l">to keep it running at steady state, once built</div>
+        <div class="stat-s">Part Three · run cost</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">₹31–94L<small>/yr</small></span>
+        <div class="stat-l">in equivalent value from a utilisation lift alone — before counting anything else</div>
+        <div class="stat-s">Part Three · ROI case</div>
+      </div>
+      <div class="stat">
+        <span class="stat-n">13<small>%→</small>25<small>%</small></span>
+        <div class="stat-l">the single number this entire proposal is trying to move</div>
+        <div class="stat-s">Utilisation, current → achievable</div>
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:44px; max-width:50rem">None of these figures should survive contact with MAHE's actual enrolment numbers and department budgets unchanged. What should survive is the shape of the argument: a grant funds the build, a modest per-student line or an internal budget allocation funds the running of it, and the return is measured in students who reach a clinician MAHE already employs — not in downloads.</p>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <p class="kicker kicker-ink">Sources for this part</p>
+    <ol class="srcs">
+      <li><a href="https://timelycare.com/">TimelyCare</a> · <a href="https://purchasing.collegebuys.org/vendor/timelycare/">contract structures</a> · <a href="https://www.breezejmu.org/news/mixed-feelings-reported-by-students-after-timelycares-first-active-year/article_a6145590-ea2b-11ed-8228-fbeb8aed3160.html">JMU contract value</a></li>
+      <li><a href="https://www.insidehighered.com/news/2018/10/05/colleges-turn-wellness-app-address-student-mental-health">YOU at College per-student pricing</a></li>
+      <li><a href="https://www.1to1help.com/">1to1help</a> — per-covered-life EAP contract shape</li>
+      <li><a href="https://www.talkspace.com/pricing">Talkspace pricing</a> · <a href="https://bhbusiness.com/2025/05/06/talkspace-extends-profitability-run-as-payer-strategy-fuels-growth/">payer strategy and Q1 2025 results</a> · <a href="https://www.choosingtherapy.com/how-much-does-betterhelp-cost/">BetterHelp pricing</a></li>
+      <li><a href="https://yourstory.com/2025/11/rocket-health-affordable-mental-health-therapy-platform-india">Rocket Health</a> — Indian therapy session pricing</li>
+      <li><a href="https://www.amahahealth.com/about/">Amaha</a> — Indian therapy session pricing</li>
+      <li>MAHE admissions materials — total enrolment across campuses</li>
+    </ol>
+    <p class="colophon">The complete bibliography for every competitive figure cited across this dossier is in <a href="#/competitors">Part One</a>. Pricing, cost and ROI figures on this page are original estimates by the author, not vendor quotes, and are illustrative throughout — see the method notes inline.</p>
+  </div>
+</footer>
+</main>
+
+<script>
+(function () {
+  var pages = ['home', 'competitors', 'features', 'business'];
+
+  function route() {
+    var raw = location.hash.replace(/^#\/?/, '');
+    var parts = raw.split('/');
+    var page = pages.indexOf(parts[0]) !== -1 ? parts[0] : 'home';
+    var section = parts[1] || null;
+    var changingPage = document.body.dataset.page !== page;
+
+    document.querySelectorAll('.page').forEach(function (el) {
+      el.hidden = el.id !== 'page-' + page;
+    });
+    document.querySelectorAll('[data-page]').forEach(function (a) {
+      a.classList.toggle('active', a.dataset.page === page);
+    });
+    document.body.dataset.page = page;
+
+    if (section) {
+      requestAnimationFrame(function () {
+        var el = document.getElementById(section);
+        if (el) el.scrollIntoView({ behavior: changingPage ? 'auto' : 'smooth', block: 'start' });
+      });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  window.addEventListener('hashchange', route);
+  document.addEventListener('DOMContentLoaded', route);
+})();
+</script>
