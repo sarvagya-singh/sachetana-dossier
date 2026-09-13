@@ -581,8 +581,18 @@
     margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--rule); max-width: 52rem;
   }
 
+  @media (max-width: 780px) {
+    .nav-links { display: none; }
+    .nav-in { gap: 14px; }
+  }
+
   @media (max-width: 620px) {
-    body { font-size: 19px; }
+    body { font-size: 18px; }
+    section { padding: 56px 0; }
+    .hero + section { padding-top: 42px; }
+    .hero.sub { padding: 40px 0 0; }
+    .wrap, .nav-in, .subnav-in, .sitemap-in { padding-left: 20px; padding-right: 20px; }
+
     .stat { padding-right: 18px; }
     .d dl { grid-template-columns: 1fr; gap: 3px 0; }
     .d dt { padding-top: 10px; }
@@ -590,6 +600,28 @@
     .d-geo { white-space: normal; text-align: left; }
     .d, .blk, .col, .nx { padding-right: 0; border-right: 0; }
     .prior { padding: 30px 22px; }
+
+    /* Dividers meant for side-by-side columns dangle as orphaned
+       vertical rules once a grid collapses to one column; these
+       selectors match (or beat) the desktop rule's specificity so
+       the override actually lands, and a top rule replaces the
+       lost separation between stacked items. */
+    .stats > .stat, .g3 > .blk, .next > .nx {
+      border-right: 0; padding-right: 0;
+      border-top: 1px solid var(--rule); margin-top: 22px; padding-top: 22px;
+    }
+    .stats > .stat:first-child, .g3 > .blk:first-child, .next > .nx:first-child {
+      border-top: 0; margin-top: 0; padding-top: 0;
+    }
+
+    .byline { flex-direction: column; gap: 14px 0; }
+
+    .scroller { position: relative; margin-left: -20px; margin-right: -20px; padding-left: 20px; }
+    .scroller::after {
+      content: ''; position: absolute; top: 0; right: 0; bottom: 4px; width: 28px;
+      background: linear-gradient(to right, transparent, var(--paper));
+      pointer-events: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -621,6 +653,7 @@
       </div>
       <div class="sitemap-group">
         <span class="sg-kicker">Part one · Competitor analysis</span>
+        <a href="#/competitors">Part one, from the top</a>
         <a href="#/competitors/context">Mandate</a>
         <a href="#/competitors/map">Market map</a>
         <a href="#/competitors/players">Players</a>
@@ -630,6 +663,7 @@
       </div>
       <div class="sitemap-group">
         <span class="sg-kicker">Part two · Feature set</span>
+        <a href="#/features">Part two, from the top</a>
         <a href="#/features/prior">Prior art</a>
         <a href="#/features/tier-0">Front door</a>
         <a href="#/features/tier-1">Self-directed</a>
@@ -641,6 +675,7 @@
       </div>
       <div class="sitemap-group">
         <span class="sg-kicker">Part three · Business model</span>
+        <a href="#/business">Part three, from the top</a>
         <a href="#/business/models">Revenue models</a>
         <a href="#/business/pricing">Price anchors</a>
         <a href="#/business/our-pricing">Our pricing</a>
@@ -2085,8 +2120,9 @@
 
     <div class="figure">
       <p class="fig-cap">Figure 5 · Proposed price by phase, illustrative</p>
+      <p class="hint" style="margin-top:12px">↔ Scroll the table sideways</p>
       <div class="scroller" style="margin-top:20px">
-        <table style="min-width:0; width:100%">
+        <table style="min-width:640px; width:100%">
           <caption>Enrolment figures are illustrative; MAHE's own headcount by campus should replace them before any figure reaches finance.</caption>
           <thead>
             <tr>
