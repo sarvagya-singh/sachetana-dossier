@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sachetana Dossier</title>
 
 <style>
@@ -584,6 +585,12 @@
   @media (max-width: 780px) {
     .nav-links { display: none; }
     .nav-in { gap: 14px; }
+
+    .subnav::after {
+      content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 28px;
+      background: linear-gradient(to right, transparent, var(--paper));
+      pointer-events: none;
+    }
   }
 
   @media (max-width: 620px) {
